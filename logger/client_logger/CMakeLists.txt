@@ -1,9 +1,9 @@
+add_subdirectory(tests)
+
 add_library(
         mp_os_lggr_clnt_lggr
         src/client_logger.cpp
         src/client_logger_builder.cpp)
-
-add_subdirectory(tests)
 
 target_include_directories(
         mp_os_lggr_clnt_lggr

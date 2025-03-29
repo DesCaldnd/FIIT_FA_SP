@@ -13,7 +13,7 @@ namespace __detail
         template<class ...Args>
         static binary_search_tree<tkey, tvalue, compare, AVL_TAG>::node* create_node(binary_search_tree<tkey, tvalue, compare, AVL_TAG>& cont, Args&& ...args);
 
-        static void delete_node(binary_search_tree<tkey, tvalue, compare, AVL_TAG>& cont, binary_search_tree<tkey, tvalue, compare, AVL_TAG>::node*);
+        static void delete_node(binary_search_tree<tkey, tvalue, compare, AVL_TAG>& cont);
 
         //Does not invalidate node*, needed for splay tree
         static void post_search(binary_search_tree<tkey, tvalue, compare, AVL_TAG>::node**){}
@@ -597,7 +597,7 @@ namespace __detail
 
     template<typename tkey, typename tvalue, typename compare>
     void bst_impl<tkey, tvalue, compare, AVL_TAG>::delete_node(
-            binary_search_tree <tkey, tvalue, compare, AVL_TAG> &cont, binary_search_tree<tkey, tvalue, compare, AVL_TAG>::node*)
+            binary_search_tree <tkey, tvalue, compare, AVL_TAG> &cont)
     {
         throw not_implemented("template<typename tkey, typename tvalue, typename compare>\n"
                               "void bst_impl<tkey, tvalue, compare, AVL_TAG>::delete_node(\n"

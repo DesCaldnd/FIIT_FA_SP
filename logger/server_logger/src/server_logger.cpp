@@ -30,7 +30,7 @@ int server_logger::inner_getpid()
 {
 #ifdef _WIN32
     return ::_getpid();
-#else
+#elif
     return getpid();
 #endif
 }

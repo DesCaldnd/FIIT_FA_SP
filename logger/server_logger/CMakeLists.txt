@@ -1,3 +1,6 @@
+add_subdirectory(tests)
+
+
 add_library(
         mp_os_lggr_srvr_lggr
         src/server_logger.cpp

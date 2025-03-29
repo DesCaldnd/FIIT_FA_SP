@@ -22,7 +22,7 @@ private:
     /**
      * TODO: You must improve it for alignment support
      */
-    static constexpr const size_t allocator_metadata_size = sizeof(logger*) + sizeof(allocator_dbg_helper*) + sizeof(allocator_with_fit_mode::fit_mode) +
+    static constexpr const size_t allocator_metadata_size = sizeof(logger*) + sizeof(memory_resource*) + sizeof(allocator_with_fit_mode::fit_mode) +
                                                             sizeof(size_t) + sizeof(std::mutex) + sizeof(void*);
 
     static constexpr const size_t occupied_block_metadata_size = sizeof(size_t) + sizeof(void*) + sizeof(void*) + sizeof(void*);
@@ -50,7 +50,7 @@ public:
     explicit allocator_boundary_tags(
             size_t space_size,
             std::pmr::memory_resource *parent_allocator = nullptr,
-            logger *log = nullptr,
+            logger *logger = nullptr,
             allocator_with_fit_mode::fit_mode allocate_fit_mode = allocator_with_fit_mode::fit_mode::first_fit);
 
 public:

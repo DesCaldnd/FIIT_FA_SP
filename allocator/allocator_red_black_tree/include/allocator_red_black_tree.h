@@ -54,7 +54,7 @@ public:
     explicit allocator_red_black_tree(
             size_t space_size,
             std::pmr::memory_resource *parent_allocator = nullptr,
-            logger *log = nullptr,
+            logger *logger = nullptr,
             allocator_with_fit_mode::fit_mode allocate_fit_mode = allocator_with_fit_mode::fit_mode::first_fit);
 
 public:

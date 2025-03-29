@@ -67,7 +67,7 @@ public:
     explicit allocator_buddies_system(
             size_t space_size_power_of_two,
             std::pmr::memory_resource *parent_allocator = nullptr,
-            logger *log = nullptr,
+            logger *logger = nullptr,
             allocator_with_fit_mode::fit_mode allocate_fit_mode = allocator_with_fit_mode::fit_mode::first_fit);
 
     allocator_buddies_system(

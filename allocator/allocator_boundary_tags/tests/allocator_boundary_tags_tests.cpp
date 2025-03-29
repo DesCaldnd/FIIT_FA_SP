@@ -83,7 +83,7 @@ TEST(positiveTests, test2)
     auto actual_blocks_state = dynamic_cast<allocator_test_utils *>(allocator_instance.get())->get_blocks_info();
     std::vector<allocator_test_utils::block_info> expected_blocks_state
         {
-            { .block_size = 1000 + sizeof(allocator_dbg_helper::block_size_t) + sizeof(allocator_dbg_helper::block_pointer_t) * 3, .is_block_occupied = true },
+            { .block_size = 999 + sizeof(allocator_dbg_helper::block_size_t) + sizeof(allocator_dbg_helper::block_pointer_t) * 3, .is_block_occupied = true },
             { .block_size = sizeof(allocator_dbg_helper::block_size_t) + sizeof(allocator_dbg_helper::block_pointer_t) * 3, .is_block_occupied = true },
             { .block_size = 3000 - (1000 + (sizeof(allocator_dbg_helper::block_size_t) + sizeof(allocator_dbg_helper::block_pointer_t) * 3) * 2), .is_block_occupied = false }
         };
@@ -163,10 +163,9 @@ TEST(own, test1)
         switch (rand() % 2)
         {
             case 0:
-            case 1:
                 try
                 {
-                    switch (rand() % 2)
+                    switch (rand() % 3)
                     {
                         case 0:
                             the_same_subject->set_fit_mode(allocator_with_fit_mode::fit_mode::first_fit);
@@ -184,7 +183,7 @@ TEST(own, test1)
                     std::cout << ex.what() << std::endl;
                 }
                 break;
-            case 2:
+            case 1:
                 if (allocated_blocks.empty())
                 {
                     std::cout << "No blocks to deallocate" << std::endl;

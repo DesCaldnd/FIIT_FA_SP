@@ -152,10 +152,9 @@ TEST(positiveTests, test53)
         switch (rand() % 2)
         {
             case 0:
-            case 1:
                 try
                 {
-                    switch (rand() % 2)
+                    switch (rand() % 3)
                     {
                         case 0:
                             the_same_subject->set_fit_mode(allocator_with_fit_mode::fit_mode::first_fit);
@@ -168,12 +167,12 @@ TEST(positiveTests, test53)
                     allocated_blocks.push_front(allocator->allocate(sizeof(void *) * (rand() % 251 + 50)));
                     std::cout << "allocation succeeded" << std::endl;
                 }
-                catch (std::bad_alloc const &ex)
-                {
-                    std::cout << ex.what() << std::endl;
-                }
-                break;
-            case 2:
+            catch (std::bad_alloc const &ex)
+            {
+                std::cout << ex.what() << std::endl;
+            }
+            break;
+            case 1:
                 if (allocated_blocks.empty())
                 {
                     std::cout << "No blocks to deallocate" << std::endl;
@@ -181,12 +180,12 @@ TEST(positiveTests, test53)
                     break;
                 }
 
-                auto it = allocated_blocks.begin();
-                std::advance(it, rand() % allocated_blocks.size());
-                allocator->deallocate(*it, 1);
-                allocated_blocks.erase(it);
-                std::cout << "deallocation succeeded" << std::endl;
-                break;
+            auto it = allocated_blocks.begin();
+            std::advance(it, rand() % allocated_blocks.size());
+            allocator->deallocate(*it, 1);
+            allocated_blocks.erase(it);
+            std::cout << "deallocation succeeded" << std::endl;
+            break;
         }
     }
 
