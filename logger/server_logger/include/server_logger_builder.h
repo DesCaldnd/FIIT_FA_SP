@@ -3,6 +3,7 @@
 
 #include <logger_builder.h>
 #include <unordered_map>
+#include <nlohmann/json.hpp>
 #include "server_logger.h"
 
 class server_logger_builder final:
@@ -12,6 +13,8 @@ class server_logger_builder final:
     std::string _destination;
 
     std::unordered_map<logger::severity ,std::pair<std::string, bool>> _output_streams;
+
+	void parse_severity(logger::severity, nlohmann::json& j);
 
 public:
 

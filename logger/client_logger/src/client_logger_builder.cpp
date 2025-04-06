@@ -10,9 +10,9 @@ using namespace nlohmann;
 logger_builder& client_logger_builder::add_file_stream(std::string const& stream_file_path, logger::severity severity) & {
 	auto opened_stream = _output_streams.find(severity);
 	if (opened_stream == _output_streams.end()) {
-		auto inserted = _output_streams.emplace(severity, std::make_pair(std::forward_list<client_logger::refcounted_stream>(), false));
-		opened_stream = inserted.first;
+		opened_stream = _output_streams.emplace(severity, std::make_pair(std::forward_list<client_logger::refcounted_stream>(), false)).first;;
 	}
+
 	opened_stream->second.first.emplace_front(std::filesystem::weakly_canonical(stream_file_path).string());
 	return *this;
 }
@@ -20,9 +20,9 @@ logger_builder& client_logger_builder::add_file_stream(std::string const& stream
 logger_builder& client_logger_builder::add_console_stream(logger::severity severity) & {
 	auto opened_stream = _output_streams.find(severity);
 	if (opened_stream == _output_streams.end()) {
-		auto inserted = _output_streams.emplace(severity, std::make_pair(std::forward_list<client_logger::refcounted_stream>(), true));
-		opened_stream = inserted.first;
+		opened_stream = _output_streams.emplace(severity, std::make_pair(std::forward_list<client_logger::refcounted_stream>(), true)).first;
 	}
+
 	opened_stream->second.second = true;
 	return *this;
 }
@@ -79,7 +79,7 @@ void client_logger_builder::parse_severity(logger::severity sev, nlohmann::json&
 
 			const std::string& path = js;
 			if (opened_stream == _output_streams.end()) {
-				opened_stream = _output_streams.emplace(sev,std::make_pair(std::forward_list<client_logger::refcounted_stream>(),false)).first;
+				opened_stream = _output_streams.emplace(sev, std::make_pair(std::forward_list<client_logger::refcounted_stream>(), false)).first;
 			}
 			opened_stream->second.first.emplace_front(std::filesystem::weakly_canonical(path).string());
 		}
