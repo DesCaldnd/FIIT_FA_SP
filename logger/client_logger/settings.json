@@ -1,0 +1,41 @@
+{
+  "log": {
+	"format" : "[%d %t] [%s] %m",
+	"trace": {
+	  "console" : true,
+	  "paths" : [
+		"TEST.txt",
+		"a.txt"
+	  ]
+	},
+	"warning": {
+	  "console" : true,
+	  "paths": [
+		"b.txt",
+		"TEST.txt"
+	  ]
+	},
+	"debug": {
+	  "console" : true,
+	  "paths": [
+		"a.txt",
+		"TEST.txt"
+	  ]
+	},
+	"information": {
+	  "paths": [
+		"TEST.txt"
+	  ]
+	},
+	"critical": {
+	  "paths": [
+		"TEST.txt"
+	  ]
+	},
+	"error": {
+	  "paths": [
+		"TEST.txt"
+	  ]
+	}
+  }
+}

@@ -57,7 +57,7 @@ private:
     //opens all streams
     client_logger(const std::unordered_map<logger::severity ,std::pair<std::forward_list<refcounted_stream>, bool>>& streams, std::string format);
 
-    std::string make_format(const std::string& message, severity sev) const;
+    [[nodiscard]] std::string make_format(const std::string& message, severity sev) const;
 
     static flag char_to_flag(char c) noexcept;
 
@@ -82,4 +82,4 @@ public:
 
 };
 
-#endif //MATH_PRACTICE_AND_OPERATING_SYSTEMS_CLIENT_LOGGER_H
+#endif

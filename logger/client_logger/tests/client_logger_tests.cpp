@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
             add_console_stream(logger::severity::trace).
             set_format("[%d %t][%s] %m");
 
-    builder.transform_with_configuration("set.json", "log");
+    builder.transform_with_configuration("settings.json", "log");
 
     std::unique_ptr<logger> log(builder.build());
 
@@ -26,7 +26,9 @@ int main(int argc, char *argv[])
 
     std::unique_ptr<logger> logger2(builder.build());
 
-    logger2->trace("From second logger");
-
+    logger2->trace("From second logger").warning("Hard learning");
+	logger2->debug("DETECTED BUG!!!");
+	log->warning("Warning!!!");
+	logger2->information("Some info").error("Error occurred").critical("Explosion in 3... 2... 1...");
     return RUN_ALL_TESTS();
 }
