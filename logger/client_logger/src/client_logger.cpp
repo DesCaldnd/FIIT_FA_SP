@@ -1,8 +1,5 @@
 #include "../include/client_logger.h"
 
-#include <not_implemented.h>
-
-#include <algorithm>
 #include <sstream>
 #include <string>
 #include <utility>
@@ -23,7 +20,7 @@ logger &client_logger::log(const std::string &text, logger::severity severity) &
 
 	for (auto &stream: opened_stream->second.first) {
 		std::ofstream *ofstr = stream._stream.second;
-		if (ofstr != NULL) {
+		if (ofstr != nullptr) {
 			*ofstr << output << std::endl;
 		}
 	}
@@ -144,7 +141,7 @@ client_logger::refcounted_stream &
 client_logger::refcounted_stream::operator=(const client_logger::refcounted_stream &oth) {
 	if (this == &oth) return *this;
 
-	if (_stream.second != NULL) {
+	if (_stream.second != nullptr) {
 		auto opened_stream = _global_streams.find(_stream.first);
 
 		if (opened_stream != _global_streams.end()) {
@@ -160,7 +157,7 @@ client_logger::refcounted_stream::operator=(const client_logger::refcounted_stre
 	_stream.first = oth._stream.first;
 	_stream.second = oth._stream.second;
 
-	if (_stream.second != NULL) {
+	if (_stream.second != nullptr) {
 		auto opened_stream = _global_streams.find(_stream.first);
 		++opened_stream->second.first;
 	}
@@ -173,13 +170,13 @@ client_logger::refcounted_stream::refcounted_stream(client_logger::refcounted_st
 client_logger::refcounted_stream &client_logger::refcounted_stream::operator=(client_logger::refcounted_stream &&oth) noexcept {
 	if (this != &oth) {
 		_stream = std::move(oth._stream);
-		oth._stream.second = NULL;
+		oth._stream.second = nullptr;
 	}
 	return *this;
 }
 
 client_logger::refcounted_stream::~refcounted_stream() {
-	if (_stream.second != NULL) {
+	if (_stream.second != nullptr) {
 		auto opened_stream = _global_streams.find(_stream.first);
 		if (opened_stream != _global_streams.end()) {
 			--opened_stream->second.first;
