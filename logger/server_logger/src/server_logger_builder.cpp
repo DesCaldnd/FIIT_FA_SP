@@ -3,11 +3,14 @@
 #include <not_implemented.h>
 
 #include <filesystem>
+#include <fstream>
 #include <utility>
+
+using namespace nlohmann;
 
 logger_builder& server_logger_builder::add_file_stream(std::string const& stream_file_path, logger::severity severity) & {
 	auto opened_stream = _output_streams.find(severity);
-	if (opened_stream == _output_streams.end()) {
+	if (opened_stream == _output_streams.end()){
 		opened_stream = _output_streams.emplace(severity, std::make_pair(std::string(), false)).first;
 	}
 
@@ -17,7 +20,7 @@ logger_builder& server_logger_builder::add_file_stream(std::string const& stream
 
 logger_builder& server_logger_builder::add_console_stream(logger::severity severity) & {
 	auto opened_stream = _output_streams.find(severity);
-	if (opened_stream == _output_streams.end()) {
+	if (opened_stream == _output_streams.end()){
 		opened_stream = _output_streams.emplace(severity, std::make_pair(std::string(), false)).first;
 	}
 
@@ -26,21 +29,40 @@ logger_builder& server_logger_builder::add_console_stream(logger::severity sever
 }
 
 logger_builder& server_logger_builder::transform_with_configuration(std::string const& configuration_file_path, std::string const& configuration_path) & {
-	std::ifstream file(configuration_file_path);
-	if (!file.is_open()) throw std::ios_base::failure("Can't open file" + configuration_file_path);
+	json js;
+	std::ifstream stream(configuration_file_path);
+	if (stream.is_open()) {
+		json::parser_callback_t callback = [&configuration_path](int depth, json::parse_event_t event, json& parsed) {
+			if (event == json::parse_event_t::key && depth == 1 && parsed != json(configuration_path)) return false;
+			return true;
+		};
 
-	nlohmann::json data = nlohmann::json::parse(file);
-	file.close();
+		js = json::parse(stream, callback);
+		stream.close();
+		if (!js.contains(configuration_path)) return *this;
 
-	auto opened_stream = data.find(configuration_path);
-	if (opened_stream == data.end() || !opened_stream->is_object()) return *this;
+		js = js[configuration_path];
 
-	parse_severity(logger::severity::trace, (*opened_stream)["trace"]);
-	parse_severity(logger::severity::debug, (*opened_stream)["debug"]);
-	parse_severity(logger::severity::information, (*opened_stream)["information"]);
-	parse_severity(logger::severity::warning, (*opened_stream)["warning"]);
-	parse_severity(logger::severity::error, (*opened_stream)["error"]);
-	parse_severity(logger::severity::critical, (*opened_stream)["critical"]);
+		if (js.contains("format")) {
+			set_format(js["format"]);
+		}
+
+		if (js.contains("streams")) {
+			for (auto& stream_item : js["streams"]) {
+				std::string type = stream_item["type"];
+				if (type == "file" && stream_item.contains("path") && stream_item.contains("severities")) {
+					std::string path = stream_item["path"];
+					for (auto& sev : stream_item["severities"]) {
+						add_file_stream(path, string_to_severity(sev.get<std::string>()));
+					}
+				} else if (type == "console" && stream_item.contains("severities")) {
+					for (auto& sev : stream_item["severities"]) {
+						add_console_stream(string_to_severity(sev.get<std::string>()));
+					}
+				}
+			}
+		}
+	}
 
 	return *this;
 }
@@ -52,7 +74,7 @@ logger_builder& server_logger_builder::clear() & {
 }
 
 logger* server_logger_builder::build() const {
-	return new server_logger(_destination, _output_streams);
+	return new server_logger(_destination, _output_streams, _format);
 }
 
 logger_builder& server_logger_builder::set_destination(const std::string& dest) & {
@@ -62,23 +84,4 @@ logger_builder& server_logger_builder::set_destination(const std::string& dest) 
 
 logger_builder& server_logger_builder::set_format(const std::string& format) & {
 	return *this;
-}
-
-void server_logger_builder::parse_severity(logger::severity sev, nlohmann::json& j) {
-	if (j.empty() || !j.is_object()) return;
-
-	auto opened_stream = _output_streams.find(sev);
-	auto data_it = j.find("path");
-	if (data_it != j.end() && data_it->is_string()) {
-		std::string data = *data_it;
-		auto console_it = j.find("console");
-		bool console = false;
-		if (console_it != j.end() && console_it->is_boolean()) {
-			console = *console_it;
-		}
-
-		if (opened_stream == _output_streams.end()) {
-			opened_stream = _output_streams.emplace(sev, std::make_pair(data, console)).first;
-		}
-	}
 }

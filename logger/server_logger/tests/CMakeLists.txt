@@ -1,3 +1,5 @@
+find_package(Crow CONFIG REQUIRED)
+
 add_executable(
         mp_os_lggr_srvr_lggr_tests
         server_logger_tests.cpp)
