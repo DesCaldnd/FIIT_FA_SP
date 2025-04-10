@@ -12,9 +12,6 @@
 	} catch (std::bad_alloc &e) {
 		error_with_guard("Failed to allocate memory of size " + std::to_string(size));
 		throw;
-	} catch (std::exception &e) {
-		error_with_guard("Unexpected error: " + std::string(e.what()));
-		throw;
 	}
 
 	debug_with_guard("Successfully allocated memory at 0x" +
@@ -70,7 +67,7 @@ allocator_global_heap &allocator_global_heap::operator=(const allocator_global_h
 }
 
 bool allocator_global_heap::do_is_equal(const std::pmr::memory_resource &other) const noexcept {
-	return dynamic_cast<const allocator_global_heap *>(&other) != NULL;
+	return dynamic_cast<const allocator_global_heap *>(&other) != nullptr;
 }
 
 allocator_global_heap::allocator_global_heap(allocator_global_heap &&other) noexcept : _logger(other._logger) {
