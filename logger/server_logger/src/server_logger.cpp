@@ -21,18 +21,7 @@ server_logger::~server_logger() noexcept {
 logger &server_logger::log(const std::string &text, logger::severity severity) & {
 	std::string pid = std::to_string(inner_getpid());
 	std::string formatted_message = make_format(text, severity);
-	std::string encoded_message;
-	for (char c: formatted_message) {
-		if (isalnum(c) || c == '-' || c == '_' || c == '.' || c == '~' || c == ' ') {
-			encoded_message += c;
-		} else {
-			char buf[4];
-			snprintf(buf, sizeof(buf), "%%%02X", static_cast<unsigned char>(c));
-			encoded_message += buf;
-		}
-	}
-
-	std::string url = "/log?pid=" + pid + "&sev=" + severity_to_string(severity) + "&message=" + encoded_message;
+	std::string url = "/log?pid=" + pid + "&sev=" + severity_to_string(severity) + "&message=" + formatted_message;
 	auto res = _client.Get(url);
 	return *this;
 }
