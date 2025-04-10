@@ -17,8 +17,7 @@ server::server(uint16_t port) {
 		std::string path_str = req.url_params.get("path");
 		std::string console_str = req.url_params.get("console");
 
-		std::cout << "INIT PID: " << pid_str << " SEVERITY: " << sev_str << " PATH: " << path_str << " CONSOLE: "
-				  << console_str << std::endl;
+		std::cout << "INIT PID: " << pid_str << " SEVERITY: " << sev_str << " PATH: " << path_str << " CONSOLE: " << console_str << std::endl;
 
 		int pid = std::stoi(pid_str);
 		logger::severity sev = logger_builder::string_to_severity(sev_str);
@@ -38,11 +37,9 @@ server::server(uint16_t port) {
 		}
 
 		inner_it->second.first = std::move(path_str);
-		if (!inner_it->second.first.empty())
-			std::ofstream tmp(inner_it->second.first);
 		inner_it->second.second = console;
 
-		return 0;
+		return crow::response(204);
 	});
 
 	CROW_ROUTE(app, "/destroy")([&](const crow::request &req) {
@@ -55,7 +52,7 @@ server::server(uint16_t port) {
 		std::lock_guard lock(_mut);
 		_streams.erase(pid);
 
-		return 0;
+		return crow::response(204);
 	});
 
 	CROW_ROUTE(app, "/log")([&](const crow::request &req) {
@@ -70,7 +67,6 @@ server::server(uint16_t port) {
 
 		std::shared_lock lock(_mut);
 		auto it = _streams.find(pid);
-
 		if (it != _streams.end()) {
 			auto inner_it = it->second.find(sev);
 
@@ -82,12 +78,13 @@ server::server(uint16_t port) {
 						stream << message << std::endl;
 					}
 				}
+
 				if (inner_it->second.second) {
 					std::cout << message << std::endl;
 				}
 			}
 		}
-		return 0;
+		return crow::response(204);
 	});
 
 
