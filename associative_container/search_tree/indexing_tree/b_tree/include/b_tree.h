@@ -1,16 +1,14 @@
+#ifndef MP_OS_B_TREE_H
+#define MP_OS_B_TREE_H
+
 #include <iterator>
 #include <utility>
-#include <vector>
 #include <boost/container/static_vector.hpp>
-#include <concepts>
 #include <stack>
 #include <pp_allocator.h>
 #include <search_tree.h>
 #include <initializer_list>
 #include <logger_guardant.h>
-
-#ifndef MP_OS_B_TREE_H
-#define MP_OS_B_TREE_H
 
 template <typename tkey, typename tvalue, compator<tkey> compare = std::less<tkey>, std::size_t t = 5>
 class B_tree final : private logger_guardant, private compare
@@ -130,7 +128,7 @@ public:
 
     class btree_const_iterator final
     {
-        std::stack<std::pair<btree_node**, size_t>> _path;
+        std::stack<std::pair<btree_node* const*, size_t>> _path;
         size_t _index;
 
     public:
@@ -166,7 +164,7 @@ public:
         bool is_terminate_node() const noexcept;
         size_t index() const noexcept;
 
-        explicit btree_const_iterator(const std::stack<std::pair<const btree_node**, size_t>>& path = std::stack<std::pair<const btree_node**, size_t>>(), size_t index = 0);
+        explicit btree_const_iterator(const std::stack<std::pair<btree_node* const*, size_t>>& path = std::stack<std::pair<btree_node* const*, size_t>>(), size_t index = 0);
     };
 
     class btree_reverse_iterator final
@@ -213,7 +211,7 @@ public:
 
     class btree_const_reverse_iterator final
     {
-        std::stack<std::pair<btree_node**, size_t>> _path;
+        std::stack<std::pair<btree_node* const*, size_t>> _path;
         size_t _index;
 
     public:
@@ -250,7 +248,7 @@ public:
         bool is_terminate_node() const noexcept;
         size_t index() const noexcept;
 
-        explicit btree_const_reverse_iterator(const std::stack<std::pair<const btree_node**, size_t>>& path = std::stack<std::pair<const btree_node**, size_t>>(), size_t index = 0);
+        explicit btree_const_reverse_iterator(const std::stack<std::pair<btree_node* const*, size_t>>& path = std::stack<std::pair<btree_node* const*, size_t>>(), size_t index = 0);
     };
 
     friend class btree_iterator;
@@ -581,7 +579,7 @@ size_t B_tree<tkey, tvalue, compare, t>::btree_iterator::index() const noexcept
 
 template<typename tkey, typename tvalue, compator<tkey> compare, std::size_t t>
 B_tree<tkey, tvalue, compare, t>::btree_const_iterator::btree_const_iterator(
-        const std::stack<std::pair<const btree_node**, size_t>>& path, size_t index)
+        const std::stack<std::pair<btree_node* const*, size_t>>& path, size_t index)
 {
     throw not_implemented("template<typename tkey, typename tvalue, compator<tkey> compare, std::size_t t>\n"
                           "B_tree<tkey, tvalue, compare, t>::btree_const_iterator::btree_const_iterator(\n"
@@ -803,7 +801,7 @@ size_t B_tree<tkey, tvalue, compare, t>::btree_reverse_iterator::index() const n
 
 template<typename tkey, typename tvalue, compator<tkey> compare, std::size_t t>
 B_tree<tkey, tvalue, compare, t>::btree_const_reverse_iterator::btree_const_reverse_iterator(
-        const std::stack<std::pair<const btree_node**, size_t>>& path, size_t index)
+        const std::stack<std::pair<btree_node* const*, size_t>>& path, size_t index)
 {
     throw not_implemented("template<typename tkey, typename tvalue, compator<tkey> compare, std::size_t t>\n"
                           "B_tree<tkey, tvalue, compare, t>::btree_const_reverse_iterator::btree_const_reverse_iterator(\n"

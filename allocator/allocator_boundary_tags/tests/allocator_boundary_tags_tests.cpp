@@ -163,10 +163,9 @@ TEST(own, test1)
         switch (rand() % 2)
         {
             case 0:
-            case 1:
                 try
                 {
-                    switch (rand() % 2)
+                    switch (rand() % 3)
                     {
                         case 0:
                             the_same_subject->set_fit_mode(allocator_with_fit_mode::fit_mode::first_fit);
@@ -184,7 +183,7 @@ TEST(own, test1)
                     std::cout << ex.what() << std::endl;
                 }
                 break;
-            case 2:
+            case 1:
                 if (allocated_blocks.empty())
                 {
                     std::cout << "No blocks to deallocate" << std::endl;

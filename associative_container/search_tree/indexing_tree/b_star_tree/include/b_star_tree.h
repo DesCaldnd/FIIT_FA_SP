@@ -130,7 +130,7 @@ public:
 
     class bstree_const_iterator final
     {
-        std::stack<std::pair<bstree_node**, size_t>> _path;
+        std::stack<std::pair<bstree_node* const*, size_t>> _path;
         size_t _index;
 
     public:
@@ -166,7 +166,7 @@ public:
         bool is_terminate_node() const noexcept;
         size_t index() const noexcept;
 
-        explicit bstree_const_iterator(const std::stack<std::pair<const bstree_node**, size_t>>& path = std::stack<std::pair<const bstree_node**, size_t>>(), size_t index = 0);
+        explicit bstree_const_iterator(const std::stack<std::pair<bstree_node* const*, size_t>>& path = std::stack<std::pair<bstree_node* const*, size_t>>(), size_t index = 0);
     };
 
     class bstree_reverse_iterator final
@@ -213,7 +213,7 @@ public:
 
     class bstree_const_reverse_iterator final
     {
-        std::stack<std::pair<bstree_node**, size_t>> _path;
+        std::stack<std::pair<bstree_node* const*, size_t>> _path;
         size_t _index;
 
     public:
@@ -250,7 +250,7 @@ public:
         bool is_terminate_node() const noexcept;
         size_t index() const noexcept;
 
-        explicit bstree_const_reverse_iterator(const std::stack<std::pair<const bstree_node**, size_t>>& path = std::stack<std::pair<const bstree_node**, size_t>>(), size_t index = 0);
+        explicit bstree_const_reverse_iterator(const std::stack<std::pair<bstree_node* const*, size_t>>& path = std::stack<std::pair<bstree_node* const*, size_t>>(), size_t index = 0);
     };
 
     friend class bstree_iterator;
@@ -563,7 +563,7 @@ size_t BS_tree<tkey, tvalue, compare, t>::bstree_const_iterator::index() const n
 
 template<typename tkey, typename tvalue, compator<tkey> compare, std::size_t t>
 BS_tree<tkey, tvalue, compare, t>::bstree_const_iterator::bstree_const_iterator(
-    const std::stack<std::pair<const bstree_node **, size_t>> &path, size_t index)
+    const std::stack<std::pair<bstree_node * const*, size_t>> &path, size_t index)
 {
     throw not_implemented("too laazyy", "your code should be here...");
 }
@@ -758,7 +758,7 @@ size_t BS_tree<tkey, tvalue, compare, t>::bstree_const_reverse_iterator::index()
 
 template<typename tkey, typename tvalue, compator<tkey> compare, std::size_t t>
 BS_tree<tkey, tvalue, compare, t>::bstree_const_reverse_iterator::bstree_const_reverse_iterator(
-    const std::stack<std::pair<const bstree_node **, size_t>> &path, size_t index)
+    const std::stack<std::pair<bstree_node * const*, size_t>> &path, size_t index)
 {
     throw not_implemented("too laazyy", "your code should be here...");
 }

@@ -142,7 +142,7 @@ public:
 
     class bsptree_const_iterator final
     {
-        bsptree_node_term* _node;
+        const bsptree_node_term* _node;
         size_t _index;
 
     public:
@@ -171,7 +171,7 @@ public:
         size_t current_node_keys_count() const noexcept;
         size_t index() const noexcept;
 
-        explicit bsptree_const_iterator(bsptree_node_term* node = nullptr, size_t index = 0);
+        explicit bsptree_const_iterator(const bsptree_node_term* node = nullptr, size_t index = 0);
     };
 
     friend class btree_iterator;
@@ -325,7 +325,7 @@ get_allocator() const noexcept
 }
 
 template<typename tkey, typename tvalue, compator<tkey> compare, std::size_t t>
-BSP_tree<tkey, tvalue, compare, t>::bsptree_const_iterator::bsptree_const_iterator(bsptree_node_term *node,
+BSP_tree<tkey, tvalue, compare, t>::bsptree_const_iterator::bsptree_const_iterator(const bsptree_node_term *node,
     size_t index)
 {
     throw not_implemented("template<typename tkey, typename tvalue, compator<tkey> compare, std::size_t t> BSP_tree<tkey, tvalue, compare, t>::bsptree_const_iterator::bsptree_const_iterator(bsptree_node_term *node, size_t index)", "your code should be here...");

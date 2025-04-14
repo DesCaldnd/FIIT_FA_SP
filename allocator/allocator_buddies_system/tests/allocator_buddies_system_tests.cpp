@@ -37,7 +37,7 @@ TEST(positiveTests, test1)
                 logger::severity::information
             }
         }));
-    std::unique_ptr<smart_mem_resource> allocator_instance(new allocator_buddies_system(12, nullptr, logger_instance.get(), allocator_with_fit_mode::fit_mode::first_fit));
+    std::unique_ptr<smart_mem_resource> allocator_instance(new allocator_buddies_system(4096, nullptr, logger_instance.get(), allocator_with_fit_mode::fit_mode::first_fit));
     
     auto actual_blocks_state = dynamic_cast<allocator_test_utils *>(allocator_instance.get())->get_blocks_info();
     std::vector<allocator_test_utils::block_info> expected_blocks_state
@@ -61,7 +61,7 @@ TEST(positiveTests, test23)
                 logger::severity::information
             }
         }));
-    std::unique_ptr<smart_mem_resource> allocator_instance(new allocator_buddies_system(8, nullptr, logger_instance.get(), allocator_with_fit_mode::fit_mode::first_fit));
+    std::unique_ptr<smart_mem_resource> allocator_instance(new allocator_buddies_system(256, nullptr, logger_instance.get(), allocator_with_fit_mode::fit_mode::first_fit));
     
     void *first_block = allocator_instance->allocate(sizeof(unsigned char) * 40);
     
@@ -84,7 +84,7 @@ TEST(positiveTests, test23)
 
 TEST(positiveTests, test3)
 {
-    std::unique_ptr<smart_mem_resource> allocator_instance(new allocator_buddies_system(8, nullptr, nullptr, allocator_with_fit_mode::fit_mode::first_fit));
+    std::unique_ptr<smart_mem_resource> allocator_instance(new allocator_buddies_system(256, nullptr, nullptr, allocator_with_fit_mode::fit_mode::first_fit));
     
     void *first_block = allocator_instance->allocate(sizeof(unsigned char) * 0);
     void *second_block = allocator_instance->allocate(sizeof(unsigned char) * 0);
@@ -130,7 +130,7 @@ TEST(positiveTests, test53)
                                                             }
                                                     }));
 
-    std::unique_ptr<smart_mem_resource> alloc(new allocator_buddies_system(12, nullptr, logger_instance.get(),
+    std::unique_ptr<smart_mem_resource> alloc(new allocator_buddies_system(4090, nullptr, logger_instance.get(),
                                                                allocator_with_fit_mode::fit_mode::first_fit));
 
     auto first_block = reinterpret_cast<int *>(alloc->allocate(sizeof(int) * 250));
@@ -139,7 +139,7 @@ TEST(positiveTests, test53)
     alloc->deallocate(first_block, 1);
     first_block = reinterpret_cast<int *>(alloc->allocate(sizeof(int) * 245));
 
-    std::unique_ptr<smart_mem_resource> allocator(new allocator_buddies_system(13, nullptr, logger_instance.get(),
+    std::unique_ptr<smart_mem_resource> allocator(new allocator_buddies_system(7256, nullptr, logger_instance.get(),
                                                                    allocator_with_fit_mode::fit_mode::first_fit));
     auto *the_same_subject = dynamic_cast<allocator_with_fit_mode *>(allocator.get());
     int iterations_count = 100;
@@ -152,10 +152,9 @@ TEST(positiveTests, test53)
         switch (rand() % 2)
         {
             case 0:
-            case 1:
                 try
                 {
-                    switch (rand() % 2)
+                    switch (rand() % 3)
                     {
                         case 0:
                             the_same_subject->set_fit_mode(allocator_with_fit_mode::fit_mode::first_fit);
@@ -168,12 +167,12 @@ TEST(positiveTests, test53)
                     allocated_blocks.push_front(allocator->allocate(sizeof(void *) * (rand() % 251 + 50)));
                     std::cout << "allocation succeeded" << std::endl;
                 }
-                catch (std::bad_alloc const &ex)
-                {
-                    std::cout << ex.what() << std::endl;
-                }
-                break;
-            case 2:
+            catch (std::bad_alloc const &ex)
+            {
+                std::cout << ex.what() << std::endl;
+            }
+            break;
+            case 1:
                 if (allocated_blocks.empty())
                 {
                     std::cout << "No blocks to deallocate" << std::endl;
@@ -181,12 +180,12 @@ TEST(positiveTests, test53)
                     break;
                 }
 
-                auto it = allocated_blocks.begin();
-                std::advance(it, rand() % allocated_blocks.size());
-                allocator->deallocate(*it, 1);
-                allocated_blocks.erase(it);
-                std::cout << "deallocation succeeded" << std::endl;
-                break;
+            auto it = allocated_blocks.begin();
+            std::advance(it, rand() % allocated_blocks.size());
+            allocator->deallocate(*it, 1);
+            allocated_blocks.erase(it);
+            std::cout << "deallocation succeeded" << std::endl;
+            break;
         }
     }
 
@@ -202,7 +201,7 @@ TEST(positiveTests, test53)
 
 TEST(falsePositiveTests, test1)
 {
-    ASSERT_THROW(new allocator_buddies_system(static_cast<int>(std::floor(std::log2(sizeof(allocator_dbg_helper::block_pointer_t) * 2 + 1))) - 1), std::logic_error);
+    ASSERT_THROW(new allocator_buddies_system(1), std::logic_error);
 }
 
 int main(

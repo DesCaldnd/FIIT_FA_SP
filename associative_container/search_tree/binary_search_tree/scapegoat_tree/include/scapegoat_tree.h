@@ -60,27 +60,27 @@ public:
     explicit scapegoat_tree(
             const compare& comp = compare(),
             pp_allocator<value_type> alloc = pp_allocator<value_type>(),
-            logger *logger = nullptr, double alpha = 0.7);
+            logger *log = nullptr, double alpha = 0.7);
 
     explicit scapegoat_tree(
             pp_allocator<value_type> alloc,
             const compare& comp = compare(),
-            logger *logger = nullptr, double alpha = 0.7);
+            logger *log = nullptr, double alpha = 0.7);
 
     template<input_iterator_for_pair<tkey, tvalue> iterator>
     explicit scapegoat_tree(iterator begin, iterator end, const compare& cmp = compare(),
             pp_allocator<value_type> alloc = pp_allocator<value_type>(),
-            logger* logger = nullptr, double alpha = 0.7);
+            logger* log = nullptr, double alpha = 0.7);
 
     template<std::ranges::input_range Range>
     explicit scapegoat_tree(Range&& range, const compare& cmp = compare(),
             pp_allocator<value_type> alloc = pp_allocator<value_type>(),
-            logger* logger = nullptr, double alpha = 0.7);
+            logger* log = nullptr, double alpha = 0.7);
 
 
     scapegoat_tree(std::initializer_list<std::pair<tkey, tvalue>> data, const compare& cmp = compare(),
             pp_allocator<value_type> alloc = pp_allocator<value_type>(),
-            logger* logger = nullptr, double alpha = 0.7);
+            logger* log = nullptr, double alpha = 0.7);
 
 public:
     
@@ -106,17 +106,17 @@ private:
 template<typename compare, typename U, typename iterator>
 explicit scapegoat_tree(iterator begin, iterator end, const compare& cmp = compare(),
         pp_allocator<U> alloc = pp_allocator<U>(),
-        logger* logger = nullptr, double alpha = 0.7) -> scapegoat_tree<const typename std::iterator_traits<iterator>::value_type::first_type, typename std::iterator_traits<iterator>::value_type::second_type, compare>;
+        logger* log = nullptr, double alpha = 0.7) -> scapegoat_tree<const typename std::iterator_traits<iterator>::value_type::first_type, typename std::iterator_traits<iterator>::value_type::second_type, compare>;
 
 template<typename compare, typename U, std::ranges::forward_range Range>
 explicit scapegoat_tree(Range&& range, const compare& cmp = compare(),
         pp_allocator<U> alloc = pp_allocator<U>(),
-        logger* logger = nullptr, double alpha = 0.7) -> scapegoat_tree<const typename std::iterator_traits<typename std::ranges::iterator_t<Range>>::value_type::first_type, typename std::iterator_traits<typename std::ranges::iterator_t<Range>>::value_type::second_type, compare> ;
+        logger* log = nullptr, double alpha = 0.7) -> scapegoat_tree<const typename std::iterator_traits<typename std::ranges::iterator_t<Range>>::value_type::first_type, typename std::iterator_traits<typename std::ranges::iterator_t<Range>>::value_type::second_type, compare> ;
 
 template<typename tkey, typename tvalue, typename compare, typename U>
 scapegoat_tree(std::initializer_list<std::pair<tkey, tvalue>> data, const compare& cmp = compare(),
         pp_allocator<U> alloc = pp_allocator<U>(),
-        logger* logger = nullptr, double alpha = 0.7) -> scapegoat_tree<tkey, tvalue, compare>;
+        logger* log = nullptr, double alpha = 0.7) -> scapegoat_tree<tkey, tvalue, compare>;
 
 // region implementation
 
@@ -155,20 +155,20 @@ template<typename tkey, typename tvalue, compator<tkey> compare>
 scapegoat_tree<tkey, tvalue, compare>::scapegoat_tree(
         const compare& comp,
         pp_allocator<value_type> alloc,
-        logger *logger,
+        logger *log,
         double alpha)
 {
-    throw not_implemented("emplate<typename tkey, typename tvalue, compator<tkey> compare> scapegoat_tree<tkey, tvalue, compare>::scapegoat_tree(const compare& comp, pp_allocator<value_type> alloc, logger *logger, double alpha)", "your code should be here...");
+    throw not_implemented("emplate<typename tkey, typename tvalue, compator<tkey> compare> scapegoat_tree<tkey, tvalue, compare>::scapegoat_tree(const compare& comp, pp_allocator<value_type> alloc, logger *log, double alpha)", "your code should be here...");
 }
 
 template<typename tkey, typename tvalue, compator<tkey> compare>
 scapegoat_tree<tkey, tvalue, compare>::scapegoat_tree(
         pp_allocator<value_type> alloc,
         const compare& comp,
-        logger *logger,
+        logger *log,
         double alpha)
 {
-    throw not_implemented("template<typename tkey, typename tvalue, compator<tkey> compare> scapegoat_tree<tkey, tvalue, compare>::scapegoat_tree(pp_allocator<value_type> alloc, const compare& comp, logger *logger, double alpha)", "your code should be here...");
+    throw not_implemented("template<typename tkey, typename tvalue, compator<tkey> compare> scapegoat_tree<tkey, tvalue, compare>::scapegoat_tree(pp_allocator<value_type> alloc, const compare& comp, logger *log, double alpha)", "your code should be here...");
 }
 
 template<typename tkey, typename tvalue, compator<tkey> compare>
@@ -178,10 +178,10 @@ scapegoat_tree<tkey, tvalue, compare>::scapegoat_tree(
         iterator end,
         const compare& cmp,
         pp_allocator<value_type> alloc,
-        logger* logger,
+        logger* log,
         double alpha)
 {
-    throw not_implemented("template<typename tkey, typename tvalue, compator<tkey> compare> template<input_iterator_for_pair<tkey, tvalue> iterator> scapegoat_tree<tkey, tvalue, compare>::scapegoat_tree(iterator begin, iterator end, const compare& cmp, pp_allocator<value_type> alloc, logger* logger,double alpha)", "your code should be here...");
+    throw not_implemented("template<typename tkey, typename tvalue, compator<tkey> compare> template<input_iterator_for_pair<tkey, tvalue> iterator> scapegoat_tree<tkey, tvalue, compare>::scapegoat_tree(iterator begin, iterator end, const compare& cmp, pp_allocator<value_type> alloc, logger* log,double alpha)", "your code should be here...");
 }
 
 template<typename tkey, typename tvalue, compator<tkey> compare>
@@ -190,10 +190,10 @@ scapegoat_tree<tkey, tvalue, compare>::scapegoat_tree(
         Range&& range,
         const compare& cmp,
         pp_allocator<value_type> alloc,
-        logger* logger,
+        logger* log,
         double alpha)
 {
-    throw not_implemented("template<typename tkey, typename tvalue, compator<tkey> compare> template<std::ranges::input_range Range>scapegoat_tree<tkey, tvalue, compare>::scapegoat_tree(Range&& range, const compare& cmp, pp_allocator<value_type> alloc, logger* logger, double alpha)", "your code should be here...");
+    throw not_implemented("template<typename tkey, typename tvalue, compator<tkey> compare> template<std::ranges::input_range Range>scapegoat_tree<tkey, tvalue, compare>::scapegoat_tree(Range&& range, const compare& cmp, pp_allocator<value_type> alloc, logger* log, double alpha)", "your code should be here...");
 }
 
 template<typename tkey, typename tvalue, compator<tkey> compare>
@@ -201,10 +201,10 @@ scapegoat_tree<tkey, tvalue, compare>::scapegoat_tree(
         std::initializer_list<std::pair<tkey, tvalue>> data,
         const compare& cmp,
         pp_allocator<value_type> alloc,
-        logger* logger,
+        logger* log,
         double alpha)
 {
-    throw not_implemented("template<typename tkey, typename tvalue, compator<tkey> compare> scapegoat_tree<tkey, tvalue, compare>::scapegoat_tree(std::initializer_list<std::pair<tkey, tvalue>> data, const compare& cmp, pp_allocator<value_type> alloc, logger* logger, double alpha)", "your code should be here...");
+    throw not_implemented("template<typename tkey, typename tvalue, compator<tkey> compare> scapegoat_tree<tkey, tvalue, compare>::scapegoat_tree(std::initializer_list<std::pair<tkey, tvalue>> data, const compare& cmp, pp_allocator<value_type> alloc, logger* log, double alpha)", "your code should be here...");
 }
 
 template<typename tkey, typename tvalue, compator<tkey> compare>

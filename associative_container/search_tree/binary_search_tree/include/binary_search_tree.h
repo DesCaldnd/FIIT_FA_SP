@@ -1,18 +1,13 @@
 #ifndef MATH_PRACTICE_AND_OPERATING_SYSTEMS_BINARY_SEARCH_TREE_H
 #define MATH_PRACTICE_AND_OPERATING_SYSTEMS_BINARY_SEARCH_TREE_H
 
-#include <list>
 #include <stack>
 #include <vector>
-#include <memory>
 #include <logger.h>
-#include <logger_guardant.h>
 #include <not_implemented.h>
 #include <search_tree.h>
-#include <stack>
 #include <ranges>
 #include <pp_allocator.h>
-#include <concepts>
 
 namespace __detail
 {
@@ -126,7 +121,7 @@ public:
 
         /** Throws exception if end
          */
-        reference operator*();
+        reference operator*() const;
 
         /** UB if iterator points to end
          *
@@ -158,10 +153,10 @@ public:
         virtual ~prefix_const_iterator() =default;
 
         bool operator==(
-                prefix_iterator const &other) const noexcept;
+                prefix_const_iterator const &other) const noexcept;
 
         bool operator!=(
-                prefix_iterator const &other) const noexcept;
+                prefix_const_iterator const &other) const noexcept;
 
         prefix_const_iterator &operator++() & noexcept;
 
@@ -173,7 +168,7 @@ public:
 
         /** Throws exception if end
          */
-        reference operator*();
+        reference operator*() const;
 
         /** UB if iterator points to end
          *
@@ -221,7 +216,7 @@ public:
 
         /** Throws exception if end
          */
-        reference operator*();
+        reference operator*() const;
 
         /** UB if iterator points to end
          *
@@ -269,7 +264,7 @@ public:
 
         /** Throws exception if end
          */
-        reference operator*();
+        reference operator*() const;
 
         /** UB if iterator points to end
          *
@@ -320,7 +315,7 @@ public:
 
         /** Throws exception if end
          */
-        reference operator*();
+        reference operator*() const;
 
         /** UB if iterator points to end
          *
@@ -352,10 +347,10 @@ public:
         virtual ~infix_const_iterator() =default;
 
         bool operator==(
-                infix_iterator const &other) const noexcept;
+                infix_const_iterator const &other) const noexcept;
 
         bool operator!=(
-                infix_iterator const &other) const noexcept;
+                infix_const_iterator const &other) const noexcept;
 
         infix_const_iterator &operator++() & noexcept;
 
@@ -367,7 +362,7 @@ public:
 
         /** Throws exception if end
          */
-        reference operator*();
+        reference operator*() const;
 
         /** UB if iterator points to end
          *
@@ -415,7 +410,7 @@ public:
 
         /** Throws exception if end
          */
-        reference operator*();
+        reference operator*() const;
 
         /** UB if iterator points to end
          *
@@ -463,7 +458,7 @@ public:
 
         /** Throws exception if end
          */
-        reference operator*();
+        reference operator*() const;
 
         /** UB if iterator points to end
          *
@@ -514,7 +509,7 @@ public:
 
         /** Throws exception if end
          */
-        reference operator*();
+        reference operator*() const;
 
         /** UB if iterator points to end
          *
@@ -546,10 +541,10 @@ public:
         virtual ~postfix_const_iterator() =default;
 
         bool operator==(
-                postfix_iterator const &other) const noexcept;
+                postfix_const_iterator const &other) const noexcept;
 
         bool operator!=(
-                postfix_iterator const &other) const noexcept;
+                postfix_const_iterator const &other) const noexcept;
 
         postfix_const_iterator &operator++() & noexcept;
 
@@ -561,7 +556,7 @@ public:
 
         /** Throws exception if end
          */
-        reference operator*();
+        reference operator*() const;
 
         /** UB if iterator points to end
          *
@@ -609,7 +604,7 @@ public:
 
         /** Throws exception if end
          */
-        reference operator*();
+        reference operator*() const;
 
         /** UB if iterator points to end
          *
@@ -657,7 +652,7 @@ public:
 
         /** Throws exception if end
          */
-        reference operator*();
+        reference operator*() const;
 
         /** UB if iterator points to end
          *
@@ -702,28 +697,28 @@ public:
     explicit binary_search_tree(
             const compare& comp = compare(),
             pp_allocator<value_type> alloc = pp_allocator<value_type>(),
-            logger *logger = nullptr);
+            logger *log = nullptr);
 
     explicit binary_search_tree(
             pp_allocator<value_type> alloc,
             const compare& comp = compare(),
-            logger *logger = nullptr);
+            logger *log = nullptr);
 
 
     template<input_iterator_for_pair<tkey, tvalue> iterator>
     explicit binary_search_tree(iterator begin, iterator end, const compare& cmp = compare(), 
                                 pp_allocator<value_type> alloc = pp_allocator<value_type>(), 
-                                logger* logger = nullptr);
+                                logger* log = nullptr);
 
     template<std::ranges::input_range Range>
     explicit binary_search_tree(Range&& range, const compare& cmp = compare(),
                                 pp_allocator<value_type> alloc = pp_allocator<value_type>(),
-                                logger* logger = nullptr);
+                                logger* log = nullptr);
 
 
     binary_search_tree(std::initializer_list<std::pair<tkey, tvalue>> data, const compare& cmp = compare(),
                        pp_allocator<value_type> alloc = pp_allocator<value_type>(), 
-                       logger* logger = nullptr);
+                       logger* log = nullptr);
 
 public:
     
@@ -956,7 +951,7 @@ void __detail::bst_impl<tkey, tvalue, compare, tag>::swap(binary_search_tree<tke
 template<typename tkey, typename tvalue, compator<tkey> compare, typename tag>
 template<input_iterator_for_pair<tkey, tvalue> iterator>
 binary_search_tree<tkey, tvalue, compare, tag>::binary_search_tree(iterator begin, iterator end, const compare &cmp,
-                                                                   pp_allocator<typename binary_search_tree<tkey, tvalue, compare, tag>::value_type> alloc, logger *logger)
+                                                                   pp_allocator<typename binary_search_tree<tkey, tvalue, compare, tag>::value_type> alloc, logger *log)
 {
     throw not_implemented("template<typename tkey, typename tvalue, compator<tkey> compare, typename tag>\n"
                           "template<input_iterator_for_pair<tkey, tvalue> iterator>\n"
@@ -984,17 +979,17 @@ bool binary_search_tree<tkey, tvalue, compare, tag>::compare_keys(const tkey &lh
 template<typename compare, typename U, typename iterator>
 explicit binary_search_tree(iterator begin, iterator end, const compare& cmp = compare(),
                             pp_allocator<U> alloc = pp_allocator<U>(),
-                            logger* logger = nullptr) -> binary_search_tree<const typename std::iterator_traits<iterator>::value_type::first_type, typename std::iterator_traits<iterator>::value_type::second_type, compare>;
+                            logger* log = nullptr) -> binary_search_tree<const typename std::iterator_traits<iterator>::value_type::first_type, typename std::iterator_traits<iterator>::value_type::second_type, compare>;
 
 template<typename compare, typename U, std::ranges::forward_range Range>
 explicit binary_search_tree(Range&& range, const compare& cmp = compare(),
         pp_allocator<U> alloc = pp_allocator<U>(),
-        logger* logger = nullptr) -> binary_search_tree<const typename std::iterator_traits<typename std::ranges::iterator_t<Range>>::value_type::first_type, typename std::iterator_traits<typename std::ranges::iterator_t<Range>>::value_type::second_type, compare> ;
+        logger* log = nullptr) -> binary_search_tree<const typename std::iterator_traits<typename std::ranges::iterator_t<Range>>::value_type::first_type, typename std::iterator_traits<typename std::ranges::iterator_t<Range>>::value_type::second_type, compare> ;
 
 template<typename tkey, typename tvalue, typename compare, typename U>
 binary_search_tree(std::initializer_list<std::pair<tkey, tvalue>> data, const compare& cmp = compare(),
         pp_allocator<U> alloc = pp_allocator<U>(),
-        logger* logger = nullptr) -> binary_search_tree<tkey, tvalue, compare>;
+        logger* log = nullptr) -> binary_search_tree<tkey, tvalue, compare>;
 
 
 // region node implementation
@@ -1061,9 +1056,9 @@ binary_search_tree<tkey, tvalue, compare, tag>::prefix_iterator::operator--(int 
 
 template<typename tkey, typename tvalue, compator<tkey> compare, typename tag>
 typename binary_search_tree<tkey, tvalue, compare, tag>::prefix_iterator::reference
-binary_search_tree<tkey, tvalue, compare, tag>::prefix_iterator::operator*()
+binary_search_tree<tkey, tvalue, compare, tag>::prefix_iterator::operator*() const
 {
-    throw not_implemented("template<typename tkey, typename tvalue, compator<tkey> compare, typename tag> typename binary_search_tree<tkey, tvalue, compare, tag>::prefix_iterator::reference binary_search_tree<tkey, tvalue, compare, tag>::prefix_iterator::operator*()", "your code should be here...");
+    throw not_implemented("template<typename tkey, typename tvalue, compator<tkey> compare, typename tag> typename binary_search_tree<tkey, tvalue, compare, tag>::prefix_iterator::reference binary_search_tree<tkey, tvalue, compare, tag>::prefix_iterator::operator*() const", "your code should be here...");
 }
 
 template<typename tkey, typename tvalue, compator<tkey> compare, typename tag>
@@ -1097,14 +1092,14 @@ binary_search_tree<tkey, tvalue, compare, tag>::prefix_const_iterator::prefix_co
 
 template<typename tkey, typename tvalue, compator<tkey> compare, typename tag>
 bool binary_search_tree<tkey, tvalue, compare, tag>::prefix_const_iterator::operator==(
-        prefix_iterator const &other) const noexcept
+        prefix_const_iterator const &other) const noexcept
 {
     throw not_implemented("template<typename tkey, typename tvalue, compator<tkey> compare, typename tag> bool binary_search_tree<tkey, tvalue, compare, tag>::prefix_const_iterator::operator==(prefix_iterator const &) const noexcept", "your code should be here...");
 }
 
 template<typename tkey, typename tvalue, compator<tkey> compare, typename tag>
 bool binary_search_tree<tkey, tvalue, compare, tag>::prefix_const_iterator::operator!=(
-        prefix_iterator const &other) const noexcept
+        prefix_const_iterator const &other) const noexcept
 {
     throw not_implemented("template<typename tkey, typename tvalue, compator<tkey> compare, typename tag> bool binary_search_tree<tkey, tvalue, compare, tag>::prefix_const_iterator::operator!=(prefix_iterator const &) const noexcept", "your code should be here...");
 }
@@ -1139,9 +1134,9 @@ binary_search_tree<tkey, tvalue, compare, tag>::prefix_const_iterator::operator-
 
 template<typename tkey, typename tvalue, compator<tkey> compare, typename tag>
 typename binary_search_tree<tkey, tvalue, compare, tag>::prefix_const_iterator::reference
-binary_search_tree<tkey, tvalue, compare, tag>::prefix_const_iterator::operator*()
+binary_search_tree<tkey, tvalue, compare, tag>::prefix_const_iterator::operator*() const
 {
-    throw not_implemented("template<typename tkey, typename tvalue, compator<tkey> compare, typename tag> typename binary_search_tree<tkey, tvalue, compare, tag>::prefix_const_iterator::reference binary_search_tree<tkey, tvalue, compare, tag>::prefix_const_iterator::operator*()", "your code should be here...");
+    throw not_implemented("template<typename tkey, typename tvalue, compator<tkey> compare, typename tag> typename binary_search_tree<tkey, tvalue, compare, tag>::prefix_const_iterator::reference binary_search_tree<tkey, tvalue, compare, tag>::prefix_const_iterator::operator*() const", "your code should be here...");
 }
 
 template<typename tkey, typename tvalue, compator<tkey> compare, typename tag>
@@ -1228,9 +1223,9 @@ binary_search_tree<tkey, tvalue, compare, tag>::prefix_reverse_iterator::operato
 
 template<typename tkey, typename tvalue, compator<tkey> compare, typename tag>
 typename binary_search_tree<tkey, tvalue, compare, tag>::prefix_reverse_iterator::reference
-binary_search_tree<tkey, tvalue, compare, tag>::prefix_reverse_iterator::operator*()
+binary_search_tree<tkey, tvalue, compare, tag>::prefix_reverse_iterator::operator*() const
 {
-    throw not_implemented("template<typename tkey, typename tvalue, compator<tkey> compare, typename tag> typename binary_search_tree<tkey, tvalue, compare, tag>::prefix_reverse_iterator::reference binary_search_tree<tkey, tvalue, compare, tag>::prefix_reverse_iterator::operator*()", "your code should be here...");
+    throw not_implemented("template<typename tkey, typename tvalue, compator<tkey> compare, typename tag> typename binary_search_tree<tkey, tvalue, compare, tag>::prefix_reverse_iterator::reference binary_search_tree<tkey, tvalue, compare, tag>::prefix_reverse_iterator::operator*() const", "your code should be here...");
 }
 
 template<typename tkey, typename tvalue, compator<tkey> compare, typename tag>
@@ -1317,9 +1312,9 @@ throw not_implemented("template<typename tkey, typename tvalue, compator<tkey> c
 
 template<typename tkey, typename tvalue, compator<tkey> compare, typename tag>
 typename binary_search_tree<tkey, tvalue, compare, tag>::prefix_const_reverse_iterator::reference
-binary_search_tree<tkey, tvalue, compare, tag>::prefix_const_reverse_iterator::operator*()
+binary_search_tree<tkey, tvalue, compare, tag>::prefix_const_reverse_iterator::operator*() const
 {
-    throw not_implemented("template<typename tkey, typename tvalue, compator<tkey> compare, typename tag> typename binary_search_tree<tkey, tvalue, compare, tag>::prefix_const_reverse_iterator::reference binary_search_tree<tkey, tvalue, compare, tag>::prefix_const_reverse_iterator::operator*()", "your code should be here...");
+    throw not_implemented("template<typename tkey, typename tvalue, compator<tkey> compare, typename tag> typename binary_search_tree<tkey, tvalue, compare, tag>::prefix_const_reverse_iterator::reference binary_search_tree<tkey, tvalue, compare, tag>::prefix_const_reverse_iterator::operator*() const", "your code should be here...");
 }
 
 template<typename tkey, typename tvalue, compator<tkey> compare, typename tag>
@@ -1386,9 +1381,9 @@ binary_search_tree<tkey, tvalue, compare, tag>::infix_iterator::operator--(int n
 
 template<typename tkey, typename tvalue, compator<tkey> compare, typename tag>
 typename binary_search_tree<tkey, tvalue, compare, tag>::infix_iterator::reference
-binary_search_tree<tkey, tvalue, compare, tag>::infix_iterator::operator*()
+binary_search_tree<tkey, tvalue, compare, tag>::infix_iterator::operator*() const
 {
-    throw not_implemented("template<typename tkey, typename tvalue, compator<tkey> compare, typename tag> typename binary_search_tree<tkey, tvalue, compare, tag>::infix_iterator::reference binary_search_tree<tkey, tvalue, compare, tag>::infix_iterator::operator*()", "your code should be here...");
+    throw not_implemented("template<typename tkey, typename tvalue, compator<tkey> compare, typename tag> typename binary_search_tree<tkey, tvalue, compare, tag>::infix_iterator::reference binary_search_tree<tkey, tvalue, compare, tag>::infix_iterator::operator*() const", "your code should be here...");
 }
 
 template<typename tkey, typename tvalue, compator<tkey> compare, typename tag>
@@ -1421,13 +1416,13 @@ binary_search_tree<tkey, tvalue, compare, tag>::infix_const_iterator::infix_cons
 }
 
 template<typename tkey, typename tvalue, compator<tkey> compare, typename tag>
-bool binary_search_tree<tkey, tvalue, compare, tag>::infix_const_iterator::operator==(infix_iterator const &other) const noexcept
+bool binary_search_tree<tkey, tvalue, compare, tag>::infix_const_iterator::operator==(infix_const_iterator const &other) const noexcept
 {
     throw not_implemented("template<typename tkey, typename tvalue, compator<tkey> compare, typename tag> bool binary_search_tree<tkey, tvalue, compare, tag>::infix_const_iterator::operator==(infix_iterator const &) const noexcept", "your code should be here...");
 }
 
 template<typename tkey, typename tvalue, compator<tkey> compare, typename tag>
-bool binary_search_tree<tkey, tvalue, compare, tag>::infix_const_iterator::operator!=(infix_iterator const &other) const noexcept
+bool binary_search_tree<tkey, tvalue, compare, tag>::infix_const_iterator::operator!=(infix_const_iterator const &other) const noexcept
 {
     throw not_implemented("template<typename tkey, typename tvalue, compator<tkey> compare, typename tag> bool binary_search_tree<tkey, tvalue, compare, tag>::infix_const_iterator::operator!=(infix_iterator const &) const noexcept", "your code should be here...");
 }
@@ -1462,9 +1457,9 @@ binary_search_tree<tkey, tvalue, compare, tag>::infix_const_iterator::operator--
 
 template<typename tkey, typename tvalue, compator<tkey> compare, typename tag>
 typename binary_search_tree<tkey, tvalue, compare, tag>::infix_const_iterator::reference
-binary_search_tree<tkey, tvalue, compare, tag>::infix_const_iterator::operator*()
+binary_search_tree<tkey, tvalue, compare, tag>::infix_const_iterator::operator*() const
 {
-    throw not_implemented("template<typename tkey, typename tvalue, compator<tkey> compare, typename tag> typename binary_search_tree<tkey, tvalue, compare, tag>::infix_const_iterator::reference binary_search_tree<tkey, tvalue, compare, tag>::infix_const_iterator::operator*()", "your code should be here...");
+    throw not_implemented("template<typename tkey, typename tvalue, compator<tkey> compare, typename tag> typename binary_search_tree<tkey, tvalue, compare, tag>::infix_const_iterator::reference binary_search_tree<tkey, tvalue, compare, tag>::infix_const_iterator::operator*() const", "your code should be here...");
 }
 
 template<typename tkey, typename tvalue, compator<tkey> compare, typename tag>
@@ -1551,9 +1546,9 @@ binary_search_tree<tkey, tvalue, compare, tag>::infix_reverse_iterator::operator
 
 template<typename tkey, typename tvalue, compator<tkey> compare, typename tag>
 typename binary_search_tree<tkey, tvalue, compare, tag>::infix_reverse_iterator::reference
-binary_search_tree<tkey, tvalue, compare, tag>::infix_reverse_iterator::operator*()
+binary_search_tree<tkey, tvalue, compare, tag>::infix_reverse_iterator::operator*() const
 {
-    throw not_implemented("template<typename tkey, typename tvalue, compator<tkey> compare, typename tag> typename binary_search_tree<tkey, tvalue, compare, tag>::infix_reverse_iterator::reference binary_search_tree<tkey, tvalue, compare, tag>::infix_reverse_iterator::operator*()", "your code should be here...");
+    throw not_implemented("template<typename tkey, typename tvalue, compator<tkey> compare, typename tag> typename binary_search_tree<tkey, tvalue, compare, tag>::infix_reverse_iterator::reference binary_search_tree<tkey, tvalue, compare, tag>::infix_reverse_iterator::operator*() const", "your code should be here...");
 }
 
 template<typename tkey, typename tvalue, compator<tkey> compare, typename tag>
@@ -1640,9 +1635,9 @@ binary_search_tree<tkey, tvalue, compare, tag>::infix_const_reverse_iterator::op
 
 template<typename tkey, typename tvalue, compator<tkey> compare, typename tag>
 typename binary_search_tree<tkey, tvalue, compare, tag>::infix_const_reverse_iterator::reference
-binary_search_tree<tkey, tvalue, compare, tag>::infix_const_reverse_iterator::operator*()
+binary_search_tree<tkey, tvalue, compare, tag>::infix_const_reverse_iterator::operator*() const
 {
-    throw not_implemented("template<typename tkey, typename tvalue, compator<tkey> compare, typename tag> typename binary_search_tree<tkey, tvalue, compare, tag>::infix_const_reverse_iterator::reference binary_search_tree<tkey, tvalue, compare, tag>::infix_const_reverse_iterator::operator*()", "your code should be here...");
+    throw not_implemented("template<typename tkey, typename tvalue, compator<tkey> compare, typename tag> typename binary_search_tree<tkey, tvalue, compare, tag>::infix_const_reverse_iterator::reference binary_search_tree<tkey, tvalue, compare, tag>::infix_const_reverse_iterator::operator*() const", "your code should be here...");
 }
 
 template<typename tkey, typename tvalue, compator<tkey> compare, typename tag>
@@ -1710,9 +1705,9 @@ binary_search_tree<tkey, tvalue, compare, tag>::postfix_iterator::operator--(int
 
 template<typename tkey, typename tvalue, compator<tkey> compare, typename tag>
 typename binary_search_tree<tkey, tvalue, compare, tag>::postfix_iterator::reference
-binary_search_tree<tkey, tvalue, compare, tag>::postfix_iterator::operator*()
+binary_search_tree<tkey, tvalue, compare, tag>::postfix_iterator::operator*() const
 {
-    throw not_implemented("template<typename tkey, typename tvalue, compator<tkey> compare, typename tag> typename binary_search_tree<tkey, tvalue, compare, tag>::postfix_iterator::reference binary_search_tree<tkey, tvalue, compare, tag>::postfix_iterator::operator*()", "your code should be here...");
+    throw not_implemented("template<typename tkey, typename tvalue, compator<tkey> compare, typename tag> typename binary_search_tree<tkey, tvalue, compare, tag>::postfix_iterator::reference binary_search_tree<tkey, tvalue, compare, tag>::postfix_iterator::operator*() const", "your code should be here...");
 }
 
 template<typename tkey, typename tvalue, compator<tkey> compare, typename tag>
@@ -1745,13 +1740,13 @@ binary_search_tree<tkey, tvalue, compare, tag>::postfix_const_iterator::postfix_
 }
 
 template<typename tkey, typename tvalue, compator<tkey> compare, typename tag>
-bool binary_search_tree<tkey, tvalue, compare, tag>::postfix_const_iterator::operator==(postfix_iterator const &other) const noexcept
+bool binary_search_tree<tkey, tvalue, compare, tag>::postfix_const_iterator::operator==(postfix_const_iterator const &other) const noexcept
 {
     throw not_implemented("template<typename tkey, typename tvalue, compator<tkey> compare, typename tag> bool binary_search_tree<tkey, tvalue, compare, tag>::postfix_const_iterator::operator==(postfix_iterator const &) const noexcept", "your code should be here...");
 }
 
 template<typename tkey, typename tvalue, compator<tkey> compare, typename tag>
-bool binary_search_tree<tkey, tvalue, compare, tag>::postfix_const_iterator::operator!=(postfix_iterator const &other) const noexcept
+bool binary_search_tree<tkey, tvalue, compare, tag>::postfix_const_iterator::operator!=(postfix_const_iterator const &other) const noexcept
 {
     throw not_implemented("template<typename tkey, typename tvalue, compator<tkey> compare, typename tag> bool binary_search_tree<tkey, tvalue, compare, tag>::postfix_const_iterator::operator!=(postfix_iterator const &) const noexcept", "your code should be here...");
 }
@@ -1786,9 +1781,9 @@ binary_search_tree<tkey, tvalue, compare, tag>::postfix_const_iterator::operator
 
 template<typename tkey, typename tvalue, compator<tkey> compare, typename tag>
 typename binary_search_tree<tkey, tvalue, compare, tag>::postfix_const_iterator::reference
-binary_search_tree<tkey, tvalue, compare, tag>::postfix_const_iterator::operator*()
+binary_search_tree<tkey, tvalue, compare, tag>::postfix_const_iterator::operator*() const
 {
-    throw not_implemented("template<typename tkey, typename tvalue, compator<tkey> compare, typename tag> typename binary_search_tree<tkey, tvalue, compare, tag>::postfix_const_iterator::reference binary_search_tree<tkey, tvalue, compare, tag>::postfix_const_iterator::operator*()", "your code should be here...");
+    throw not_implemented("template<typename tkey, typename tvalue, compator<tkey> compare, typename tag> typename binary_search_tree<tkey, tvalue, compare, tag>::postfix_const_iterator::reference binary_search_tree<tkey, tvalue, compare, tag>::postfix_const_iterator::operator*() const", "your code should be here...");
 }
 
 template<typename tkey, typename tvalue, compator<tkey> compare, typename tag>
@@ -1875,9 +1870,9 @@ binary_search_tree<tkey, tvalue, compare, tag>::postfix_reverse_iterator::operat
 
 template<typename tkey, typename tvalue, compator<tkey> compare, typename tag>
 typename binary_search_tree<tkey, tvalue, compare, tag>::postfix_reverse_iterator::reference
-binary_search_tree<tkey, tvalue, compare, tag>::postfix_reverse_iterator::operator*()
+binary_search_tree<tkey, tvalue, compare, tag>::postfix_reverse_iterator::operator*() const
 {
-    throw not_implemented("template<typename tkey, typename tvalue, compator<tkey> compare, typename tag> typename binary_search_tree<tkey, tvalue, compare, tag>::postfix_reverse_iterator::reference binary_search_tree<tkey, tvalue, compare, tag>::postfix_reverse_iterator::operator*()", "your code should be here...");
+    throw not_implemented("template<typename tkey, typename tvalue, compator<tkey> compare, typename tag> typename binary_search_tree<tkey, tvalue, compare, tag>::postfix_reverse_iterator::reference binary_search_tree<tkey, tvalue, compare, tag>::postfix_reverse_iterator::operator*() const", "your code should be here...");
 }
 
 template<typename tkey, typename tvalue, compator<tkey> compare, typename tag>
@@ -1964,9 +1959,9 @@ binary_search_tree<tkey, tvalue, compare, tag>::postfix_const_reverse_iterator::
 
 template<typename tkey, typename tvalue, compator<tkey> compare, typename tag>
 typename binary_search_tree<tkey, tvalue, compare, tag>::postfix_const_reverse_iterator::reference
-binary_search_tree<tkey, tvalue, compare, tag>::postfix_const_reverse_iterator::operator*()
+binary_search_tree<tkey, tvalue, compare, tag>::postfix_const_reverse_iterator::operator*() const
 {
-    throw not_implemented("template<typename tkey, typename tvalue, compator<tkey> compare, typename tag> typename binary_search_tree<tkey, tvalue, compare, tag>::postfix_const_reverse_iterator::reference binary_search_tree<tkey, tvalue, compare, tag>::postfix_const_reverse_iterator::operator*()", "your code should be here...");
+    throw not_implemented("template<typename tkey, typename tvalue, compator<tkey> compare, typename tag> typename binary_search_tree<tkey, tvalue, compare, tag>::postfix_const_reverse_iterator::reference binary_search_tree<tkey, tvalue, compare, tag>::postfix_const_reverse_iterator::operator*() const", "your code should be here...");
 }
 
 template<typename tkey, typename tvalue, compator<tkey> compare, typename tag>
@@ -1990,7 +1985,7 @@ template<typename tkey, typename tvalue, compator<tkey> compare, typename tag>
 binary_search_tree<tkey, tvalue, compare, tag>::binary_search_tree(
         const compare& comp,
         pp_allocator<value_type> alloc,
-        logger *logger)
+        logger *log)
 {
     throw not_implemented("template<typename tkey, typename tvalue, compator<tkey> compare, typename tag> binary_search_tree<tkey, tvalue, compare, tag>::binary_search_tree(const compare& ,pp_allocator<value_type> ,logger *)", "your code should be here...");
 }
@@ -1999,7 +1994,7 @@ template<typename tkey, typename tvalue, compator<tkey> compare, typename tag>
 binary_search_tree<tkey, tvalue, compare, tag>::binary_search_tree(
         pp_allocator<value_type> alloc,
         const compare& comp,
-        logger *logger)
+        logger *log)
 {
     throw not_implemented("template<typename tkey, typename tvalue, compator<tkey> compare, typename tag> binary_search_tree<tkey, tvalue, compare, tag>::binary_search_tree(pp_allocator<value_type> , const compare& , logger *)", "your code should be here...");
 }
@@ -2010,7 +2005,7 @@ binary_search_tree<tkey, tvalue, compare, tag>::binary_search_tree(
         Range&& range,
         const compare& cmp,
         pp_allocator<value_type> alloc,
-        logger* logger)
+        logger* log)
 {
     throw not_implemented("template<typename tkey, typename tvalue, compator<tkey> compare, typename tag> template<std::ranges::input_range Range> binary_search_tree<tkey, tvalue, compare, tag>::binary_search_tree(Range&& ,const compare& ,pp_allocator<value_type> ,logger* )", "your code should be here...");
 }
@@ -2020,7 +2015,7 @@ binary_search_tree<tkey, tvalue, compare, tag>::binary_search_tree(
         std::initializer_list<std::pair<tkey, tvalue>> data,
         const compare& cmp,
         pp_allocator<value_type> alloc,
-        logger* logger)
+        logger* log)
 {
     throw not_implemented("template<typename tkey, typename tvalue, compator<tkey> compare, typename tag> binary_search_tree<tkey, tvalue, compare, tag>::binary_search_tree(std::initializer_list<std::pair<tkey, tvalue>> ,const compare& ,pp_allocator<value_type> ,logger* )", "your code should be here...");
 }

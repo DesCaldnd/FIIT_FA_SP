@@ -62,27 +62,27 @@ public:
     explicit red_black_tree(
             const compare& comp = compare(),
             pp_allocator<value_type> alloc = pp_allocator<value_type>(),
-            logger *logger = nullptr);
+            logger *log = nullptr);
 
     explicit red_black_tree(
             pp_allocator<value_type> alloc,
             const compare& comp = compare(),
-            logger *logger = nullptr);
+            logger *log = nullptr);
 
     template<input_iterator_for_pair<tkey, tvalue> iterator>
     explicit red_black_tree(iterator begin, iterator end, const compare& cmp = compare(),
             pp_allocator<value_type> alloc = pp_allocator<value_type>(),
-            logger* logger = nullptr);
+            logger* log = nullptr);
 
     template<std::ranges::input_range Range>
     explicit red_black_tree(Range&& range, const compare& cmp = compare(),
             pp_allocator<value_type> alloc = pp_allocator<value_type>(),
-            logger* logger = nullptr);
+            logger* log = nullptr);
 
 
     red_black_tree(std::initializer_list<std::pair<tkey, tvalue>> data, const compare& cmp = compare(),
             pp_allocator<value_type> alloc = pp_allocator<value_type>(),
-            logger* logger = nullptr);
+            logger* log = nullptr);
 
 
     // region iterator definition
@@ -567,17 +567,17 @@ public:
 template<typename compare, typename U, typename iterator>
 explicit red_black_tree(iterator begin, iterator end, const compare& cmp = compare(),
         pp_allocator<U> alloc = pp_allocator<U>(),
-        logger* logger = nullptr) -> red_black_tree<typename std::iterator_traits<iterator>::value_type::first_type, typename std::iterator_traits<iterator>::value_type::second_type, compare>;
+        logger* log = nullptr) -> red_black_tree<typename std::iterator_traits<iterator>::value_type::first_type, typename std::iterator_traits<iterator>::value_type::second_type, compare>;
 
 template<typename compare, typename U, std::ranges::forward_range Range>
 explicit red_black_tree(Range&& range, const compare& cmp = compare(),
         pp_allocator<U> alloc = pp_allocator<U>(),
-        logger* logger = nullptr) -> red_black_tree<typename std::iterator_traits<typename std::ranges::iterator_t<Range>>::value_type::first_type, typename std::iterator_traits<typename std::ranges::iterator_t<Range>>::value_type::second_type, compare> ;
+        logger* log = nullptr) -> red_black_tree<typename std::iterator_traits<typename std::ranges::iterator_t<Range>>::value_type::first_type, typename std::iterator_traits<typename std::ranges::iterator_t<Range>>::value_type::second_type, compare> ;
 
 template<typename tkey, typename tvalue, typename compare, typename U>
 red_black_tree(std::initializer_list<std::pair<tkey, tvalue>> data, const compare& cmp = compare(),
         pp_allocator<U> alloc = pp_allocator<U>(),
-        logger* logger = nullptr) -> red_black_tree<tkey, tvalue, compare>;
+        logger* log = nullptr) -> red_black_tree<tkey, tvalue, compare>;
 
 namespace __detail {
 
@@ -636,7 +636,7 @@ template<typename tkey, typename tvalue, compator<tkey> compare>
 red_black_tree<tkey, tvalue, compare>::red_black_tree(
         const compare& comp,
         pp_allocator<value_type> alloc,
-        logger *logger)
+        logger *log)
 {
     throw not_implemented("template<typename tkey, typename tvalue, compator<tkey> compare> red_black_tree<tkey, tvalue, compare>::red_black_tree(const compare& , pp_allocator<value_type> , logger *)", "your code should be here...");
 }
@@ -645,7 +645,7 @@ template<typename tkey, typename tvalue, compator<tkey> compare>
 red_black_tree<tkey, tvalue, compare>::red_black_tree(
         pp_allocator<value_type> alloc,
         const compare& comp,
-        logger *logger)
+        logger *log)
 {
     throw not_implemented("template<typename tkey, typename tvalue, compator<tkey> compare> red_black_tree<tkey, tvalue, compare>::red_black_tree(pp_allocator<value_type> , const compare& , logger *)", "your code should be here...");
 }
@@ -656,7 +656,7 @@ red_black_tree<tkey, tvalue, compare>::red_black_tree(
         iterator begin, iterator end,
         const compare& cmp,
         pp_allocator<value_type> alloc,
-        logger* logger)
+        logger* log)
 {
     throw not_implemented("template<typename tkey, typename tvalue, compator<tkey> compare> template<input_iterator_for_pair<tkey, tvalue> iterator> red_black_tree<tkey, tvalue, compare>::red_black_tree(iterator , iterator , const compare& , pp_allocator<value_type> , logger* )", "your code should be here...");
 }
@@ -667,9 +667,9 @@ red_black_tree<tkey, tvalue, compare>::red_black_tree(
         Range&& range,
         const compare& cmp,
         pp_allocator<value_type> alloc,
-        logger* logger)
+        logger* log)
 {
-    throw not_implemented("template<typename tkey, typename tvalue, compator<tkey> compare> template<std::ranges::input_range Range> red_black_tree<tkey, tvalue, compare>::red_black_tree( Range&& range, const compare& cmp, pp_allocator<value_type> alloc, logger* logger)", "your code should be here...");
+    throw not_implemented("template<typename tkey, typename tvalue, compator<tkey> compare> template<std::ranges::input_range Range> red_black_tree<tkey, tvalue, compare>::red_black_tree( Range&& range, const compare& cmp, pp_allocator<value_type> alloc, logger* log)", "your code should be here...");
 }
 
 template<typename tkey, typename tvalue, compator<tkey> compare>
@@ -677,9 +677,9 @@ red_black_tree<tkey, tvalue, compare>::red_black_tree(
         std::initializer_list<std::pair<tkey, tvalue>> data,
         const compare& cmp,
         pp_allocator<value_type> alloc,
-        logger* logger)
+        logger* log)
 {
-    throw not_implemented("template<typename tkey, typename tvalue, compator<tkey> compare> red_black_tree<tkey, tvalue, compare>::red_black_tree(std::initializer_list<std::pair<tkey, tvalue>> data, const compare& cmp, pp_allocator<value_type> alloc, logger* logger)", "your code should be here...");
+    throw not_implemented("template<typename tkey, typename tvalue, compator<tkey> compare> red_black_tree<tkey, tvalue, compare>::red_black_tree(std::initializer_list<std::pair<tkey, tvalue>> data, const compare& cmp, pp_allocator<value_type> alloc, logger* log)", "your code should be here...");
 }
 
 // region iterator implementation

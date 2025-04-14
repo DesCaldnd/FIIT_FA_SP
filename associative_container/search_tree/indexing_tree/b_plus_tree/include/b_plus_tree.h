@@ -141,7 +141,7 @@ public:
 
     class bptree_const_iterator final
     {
-        bptree_node_term* _node;
+        const bptree_node_term* _node;
         size_t _index;
 
     public:
@@ -170,7 +170,7 @@ public:
         size_t current_node_keys_count() const noexcept;
         size_t index() const noexcept;
 
-        explicit bptree_const_iterator(bptree_node_term* node = nullptr, size_t index = 0);
+        explicit bptree_const_iterator(const bptree_node_term* node = nullptr, size_t index = 0);
     };
 
     friend class btree_iterator;
@@ -430,7 +430,7 @@ size_t BP_tree<tkey, tvalue, compare, t>::bptree_const_iterator::index() const n
 }
 
 template<typename tkey, typename tvalue, compator<tkey> compare, std::size_t t>
-BP_tree<tkey, tvalue, compare, t>::bptree_const_iterator::bptree_const_iterator(bptree_node_term *node, size_t index)
+BP_tree<tkey, tvalue, compare, t>::bptree_const_iterator::bptree_const_iterator(const bptree_node_term *node, size_t index)
 {
     throw not_implemented("too laazyy", "your code should be here...");
 }
