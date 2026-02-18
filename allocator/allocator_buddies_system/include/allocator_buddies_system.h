@@ -4,8 +4,6 @@
 #include <pp_allocator.h>
 #include <allocator_test_utils.h>
 #include <allocator_with_fit_mode.h>
-#include <logger_guardant.h>
-#include <typename_holder.h>
 #include <mutex>
 #include <cmath>
 
@@ -34,9 +32,7 @@ namespace __detail
 class allocator_buddies_system final:
     public smart_mem_resource,
     public allocator_test_utils,
-    public allocator_with_fit_mode,
-    private logger_guardant,
-    private typename_holder
+    public allocator_with_fit_mode
 {
 
 private:
@@ -54,7 +50,7 @@ private:
      * TODO: You must improve it for alignment support
      */
 
-    static constexpr const size_t allocator_metadata_size = sizeof(logger*) + sizeof(allocator_dbg_helper*) + sizeof(fit_mode) + sizeof(unsigned char) + sizeof(std::mutex);
+    static constexpr const size_t allocator_metadata_size = sizeof(allocator_dbg_helper*) + sizeof(fit_mode) + sizeof(unsigned char) + sizeof(std::mutex);
 
     static constexpr const size_t occupied_block_metadata_size = sizeof(block_metadata) + sizeof(void*);
 
@@ -67,7 +63,6 @@ public:
     explicit allocator_buddies_system(
             size_t space_size_power_of_two,
             std::pmr::memory_resource *parent_allocator = nullptr,
-            logger *logger = nullptr,
             allocator_with_fit_mode::fit_mode allocate_fit_mode = allocator_with_fit_mode::fit_mode::first_fit);
 
     allocator_buddies_system(
@@ -84,7 +79,7 @@ public:
 
     ~allocator_buddies_system() override;
 
-public:
+private:
     
     [[nodiscard]] void *do_allocate_sm(
         size_t size) override;
@@ -101,11 +96,6 @@ public:
     std::vector<allocator_test_utils::block_info> get_blocks_info() const noexcept override;
 
 private:
-
-    
-    inline logger *get_logger() const override;
-    
-    inline std::string get_typename() const override;
 
     std::vector<allocator_test_utils::block_info> get_blocks_info_inner() const override;
 

@@ -1,32 +1,18 @@
 #include <gtest/gtest.h>
 #include <iostream>
 #include <allocator_global_heap.h>
-#include <client_logger_builder.h>
 
 TEST(allocatorGlobalHeapTests, test1)
 {
-    std::unique_ptr<logger_builder> logger_builder_instance(new client_logger_builder);
-    
-    std::unique_ptr<logger> logger_instance(logger_builder_instance
-        ->add_file_stream("gh_alc_test1_logs.txt", logger::severity::debug)
-        .build());
-
-    std::unique_ptr<smart_mem_resource> allocator_instance(new allocator_global_heap(logger_instance.get()));
+    std::unique_ptr<smart_mem_resource> allocator_instance(new allocator_global_heap());
     auto block = reinterpret_cast<int *>(allocator_instance->allocate(sizeof(unsigned char) * 0));
-    std::unique_ptr<smart_mem_resource> allocator_another_instance(new allocator_global_heap(logger_instance.get()));
+    std::unique_ptr<smart_mem_resource> allocator_another_instance(new allocator_global_heap());
     allocator_another_instance->deallocate(block, 1);
 }
 
 TEST(allocatorGlobalHeapTests, test2)
 {
-
-    std::unique_ptr<logger_builder> logger_builder_instance(new client_logger_builder);
-
-    std::unique_ptr<logger> logger_instance(logger_builder_instance
-        ->add_file_stream("gh_alc_test2_logs.txt", logger::severity::debug)
-        .build());
-
-    std::unique_ptr<smart_mem_resource> allocator_instance(new allocator_global_heap(logger_instance.get()));
+    std::unique_ptr<smart_mem_resource> allocator_instance(new allocator_global_heap());
     
     auto first_block = reinterpret_cast<char *>(allocator_instance->allocate(sizeof(char) * 11));
     
@@ -39,7 +25,7 @@ TEST(allocatorGlobalHeapTests, test3)
 {
     int const values_to_allocate_count = 30;
 
-    std::unique_ptr<smart_mem_resource> allocator_instance(new allocator_global_heap(nullptr));
+    std::unique_ptr<smart_mem_resource> allocator_instance(new allocator_global_heap());
     
     auto first_block = reinterpret_cast<unsigned int *>(allocator_instance->allocate(sizeof(unsigned int) * values_to_allocate_count));
     auto second_block = reinterpret_cast<unsigned int *>(allocator_instance->allocate(sizeof(unsigned long int) * values_to_allocate_count));

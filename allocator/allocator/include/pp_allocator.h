@@ -2,8 +2,8 @@
 // Created by Des Caldnd on 6/29/2024.
 //
 
-#ifndef MP_OS_PP_ALLOCATOR_H
-#define MP_OS_PP_ALLOCATOR_H
+#ifndef SYS_PROG_PP_ALLOCATOR_H
+#define SYS_PROG_PP_ALLOCATOR_H
 
 #include <memory_resource>
 #include <memory>
@@ -199,4 +199,4 @@ pp_allocator<T>::pp_allocator(const pp_allocator<U>& other) noexcept : _mem(othe
 
 
 
-#endif //MP_OS_PP_ALLOCATOR_H
+#endif //SYS_PROG_PP_ALLOCATOR_H

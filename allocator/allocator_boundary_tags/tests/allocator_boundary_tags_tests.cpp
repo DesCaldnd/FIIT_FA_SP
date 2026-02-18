@@ -1,44 +1,14 @@
 #include <gtest/gtest.h>
 #include <allocator_dbg_helper.h>
 #include <allocator_boundary_tags.h>
-#include <client_logger_builder.h>
 #include <memory>
 #include <list>
-
-logger *create_logger(
-    std::vector<std::pair<std::string, logger::severity>> const &output_file_streams_setup,
-    bool use_console_stream = true,
-    logger::severity console_stream_severity = logger::severity::debug)
-{
-    std::unique_ptr<logger_builder> logger_builder_instance(new client_logger_builder);
-    
-    if (use_console_stream)
-    {
-        logger_builder_instance->add_console_stream(console_stream_severity);
-    }
-    
-    for (auto &output_file_stream_setup: output_file_streams_setup)
-    {
-        logger_builder_instance->add_file_stream(output_file_stream_setup.first, output_file_stream_setup.second);
-    }
-    
-    logger *logger_instance = logger_builder_instance->build();
-    
-    return logger_instance;
-}
 
 //TODO: recalculate size
 
 TEST(positiveTests, test1)
 {
-    std::unique_ptr<logger> logger(create_logger(std::vector<std::pair<std::string, logger::severity>>
-        {
-            {
-                "allocator_boundary_tags_tests_logs_positive_test_plain_usage.txt",
-                logger::severity::information
-            }
-        }));
-    std::unique_ptr<smart_mem_resource> subject(new allocator_boundary_tags(sizeof(int) * 70, nullptr, logger.get(), allocator_with_fit_mode::fit_mode::first_fit));
+    std::unique_ptr<smart_mem_resource> subject(new allocator_boundary_tags(sizeof(int) * 70, nullptr, allocator_with_fit_mode::fit_mode::first_fit));
     
     auto *first_block = reinterpret_cast<int *>(subject->allocate(sizeof(int) * 10));
     auto *second_block = reinterpret_cast<int *>(subject->allocate(sizeof(int) * 10));
@@ -67,14 +37,7 @@ TEST(positiveTests, test1)
 
 TEST(positiveTests, test2)
 {
-    std::unique_ptr<logger> logger_instance(create_logger(std::vector<std::pair<std::string, logger::severity>>
-        {
-            {
-                "allocator_boundary_tags_tests_logs_false_positive_test_1.txt",
-                logger::severity::information
-            }
-        }));
-    std::unique_ptr<smart_mem_resource> allocator_instance(new allocator_boundary_tags(sizeof(unsigned char) * 3000, nullptr, logger_instance.get(), allocator_with_fit_mode::fit_mode::first_fit));
+    std::unique_ptr<smart_mem_resource> allocator_instance(new allocator_boundary_tags(sizeof(unsigned char) * 3000, nullptr, allocator_with_fit_mode::fit_mode::first_fit));
     
     char *first_block = reinterpret_cast<char *>(allocator_instance->allocate(sizeof(char) * 1000));
     char *second_block = reinterpret_cast<char *>(allocator_instance->allocate(sizeof(char) * 0));
@@ -100,14 +63,7 @@ TEST(positiveTests, test2)
 
 TEST(falsePositiveTests, test1)
 {
-    std::unique_ptr<logger> logger_instance(create_logger(std::vector<std::pair<std::string, logger::severity>>
-        {
-            {
-                "allocator_boundary_tags_tests_logs_false_positive_test_2.txt",
-                logger::severity::information
-            }
-        }));
-    std::unique_ptr<smart_mem_resource> allocator_instance(new allocator_boundary_tags(3000, nullptr, logger_instance.get(), allocator_with_fit_mode::fit_mode::first_fit));
+    std::unique_ptr<smart_mem_resource> allocator_instance(new allocator_boundary_tags(3000, nullptr, allocator_with_fit_mode::fit_mode::first_fit));
     
     ASSERT_THROW(static_cast<void>(allocator_instance->allocate(sizeof(char)*  3000)), std::bad_alloc);
 
@@ -115,35 +71,7 @@ TEST(falsePositiveTests, test1)
 
 TEST(own, test1)
 {
-    std::unique_ptr<logger> logger_instance(create_logger(std::vector<std::pair<std::string, logger::severity>>
-                                                    {
-                                                            {
-                                                                    "a.txt",
-                                                                    logger::severity::information
-                                                            },
-                                                            {
-                                                                    "a.txt",
-                                                                    logger::severity::debug
-                                                            },
-                                                            {
-                                                                    "a.txt",
-                                                                    logger::severity::trace
-                                                            },
-                                                            {
-                                                                    "a.txt",
-                                                                    logger::severity::warning
-                                                            },
-                                                            {
-                                                                    "a.txt",
-                                                                    logger::severity::error
-                                                            },
-                                                            {
-                                                                    "a.txt",
-                                                                    logger::severity::critical
-                                                            }
-                                                    }));
-
-    std::unique_ptr<smart_mem_resource> alloc(new allocator_boundary_tags(4000, nullptr, logger_instance.get(), allocator_with_fit_mode::fit_mode::first_fit));
+    std::unique_ptr<smart_mem_resource> alloc(new allocator_boundary_tags(4000, nullptr, allocator_with_fit_mode::fit_mode::first_fit));
 
     auto first_block = reinterpret_cast<int *>(alloc->allocate(sizeof(int)*  250));
     auto second_block = reinterpret_cast<char *>(alloc->allocate(sizeof(char) * 500));
@@ -151,7 +79,7 @@ TEST(own, test1)
     alloc->deallocate(first_block, 1);
     first_block = reinterpret_cast<int *>(alloc->allocate(sizeof(int) * 245));
 
-    std::unique_ptr<smart_mem_resource> allocator(new allocator_boundary_tags(5000, nullptr, logger_instance.get(), allocator_with_fit_mode::fit_mode::first_fit));
+    std::unique_ptr<smart_mem_resource> allocator(new allocator_boundary_tags(5000, nullptr, allocator_with_fit_mode::fit_mode::first_fit));
     auto *the_same_subject = dynamic_cast<allocator_with_fit_mode *>(allocator.get());
     int iterations_count = 100;
 

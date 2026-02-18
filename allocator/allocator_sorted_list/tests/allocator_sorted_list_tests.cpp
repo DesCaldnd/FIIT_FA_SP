@@ -1,44 +1,11 @@
 #include <gtest/gtest.h>
-#include <logger.h>
-#include <logger_builder.h>
-#include <client_logger_builder.h>
 #include <list>
 
 #include "../include/allocator_sorted_list.h"
 
-logger *create_logger(
-    std::vector<std::pair<std::string, logger::severity>> const &output_file_streams_setup,
-    bool use_console_stream = true,
-    logger::severity console_stream_severity = logger::severity::debug)
-{
-    std::unique_ptr<logger_builder> builder(new client_logger_builder());
-    
-    if (use_console_stream)
-    {
-        builder->add_console_stream(console_stream_severity);
-    }
-    
-    for (auto &output_file_stream_setup: output_file_streams_setup)
-    {
-        builder->add_file_stream(output_file_stream_setup.first, output_file_stream_setup.second);
-    }
-    
-    logger *built_logger = builder->build();
-    
-    return built_logger;
-}
-
 TEST(allocatorSortedListPositiveTests, test1)
 {
-    std::unique_ptr<logger> logger_instance(create_logger(std::vector<std::pair<std::string, logger::severity>>
-                                                    {
-                                                            {
-                                                                    "allocator_boundary_tags_tests_logs_false_positive_test_1.txt",
-                                                                    logger::severity::information
-                                                            },
-                                                    }));
-    
-    std::unique_ptr<smart_mem_resource> alloc(new allocator_sorted_list(3000, nullptr, logger_instance.get(), allocator_with_fit_mode::fit_mode::first_fit));
+    std::unique_ptr<smart_mem_resource> alloc(new allocator_sorted_list(3000, nullptr, allocator_with_fit_mode::fit_mode::first_fit));
     
     auto first_block = reinterpret_cast<int *>(alloc->allocate(sizeof(int) * 250));
     
@@ -53,15 +20,7 @@ TEST(allocatorSortedListPositiveTests, test1)
 
 TEST(allocatorSortedListPositiveTests, test2)
 {
-    std::unique_ptr<logger> logger_instance(create_logger(std::vector<std::pair<std::string, logger::severity>>
-                                                    {
-                                                            {
-                                                                    "allocator_boundary_tags_tests_logs_false_positive_test_1.txt",
-                                                                    logger::severity::information
-                                                            }
-                                                    }));
-
-    std::unique_ptr<smart_mem_resource> alloc(new allocator_sorted_list(3000, nullptr, logger_instance.get(),
+    std::unique_ptr<smart_mem_resource> alloc(new allocator_sorted_list(3000, nullptr,
                                                             allocator_with_fit_mode::fit_mode::the_worst_fit));
     
     auto first_block = reinterpret_cast<int *>(alloc->allocate(sizeof(int) * 250));
@@ -79,14 +38,7 @@ TEST(allocatorSortedListPositiveTests, test2)
 
 TEST(allocatorSortedListPositiveTests, test3)
 {
-    std::unique_ptr<logger> logger_instance(create_logger(std::vector<std::pair<std::string, logger::severity>>
-                                                    {
-                                                            {
-                                                                    "allocator_boundary_tags_tests_logs_false_positive_test_1.txt",
-                                                                    logger::severity::information
-                                                            }
-                                                    }));
-    std::unique_ptr<smart_mem_resource> allocator(new allocator_sorted_list(5000, nullptr, logger_instance.get(), allocator_with_fit_mode::fit_mode::first_fit));
+    std::unique_ptr<smart_mem_resource> allocator(new allocator_sorted_list(5000, nullptr, allocator_with_fit_mode::fit_mode::first_fit));
     
     int iterations_count = 100;
     
@@ -137,15 +89,7 @@ TEST(allocatorSortedListPositiveTests, test3)
 
 TEST(allocatorSortedListPositiveTests, test4)
 {
-    std::unique_ptr<logger> logger_instance(create_logger(std::vector<std::pair<std::string, logger::severity>>
-                                                    {
-                                                            {
-                                                                    "allocator_boundary_tags_tests_logs_false_positive_test_1.txt",
-                                                                    logger::severity::information
-                                                            }
-                                                    }));
-
-    std::unique_ptr<smart_mem_resource> alloc(new allocator_sorted_list(1000, nullptr, logger_instance.get(), allocator_with_fit_mode::fit_mode::first_fit));
+    std::unique_ptr<smart_mem_resource> alloc(new allocator_sorted_list(1000, nullptr, allocator_with_fit_mode::fit_mode::first_fit));
     
     auto first_block = reinterpret_cast<unsigned char *>(alloc->allocate(sizeof(unsigned char) * 250));
     auto second_block = reinterpret_cast<unsigned char *>(alloc->allocate(sizeof(char) * 150));
@@ -167,15 +111,7 @@ TEST(allocatorSortedListPositiveTests, test4)
 
 TEST(allocatorSortedListPositiveTests, test5)
 {
-    std::unique_ptr<logger> logger_instance(create_logger(std::vector<std::pair<std::string, logger::severity>>
-                                                    {
-                                                            {
-                                                                    "allocator_boundary_tags_tests_logs_false_positive_test_1.txt",
-                                                                    logger::severity::information
-                                                            }
-                                                    }));
-
-    std::unique_ptr<smart_mem_resource> alloc(new allocator_sorted_list(3000, nullptr, logger_instance.get(), allocator_with_fit_mode::fit_mode::first_fit));
+    std::unique_ptr<smart_mem_resource> alloc(new allocator_sorted_list(3000, nullptr, allocator_with_fit_mode::fit_mode::first_fit));
     
     auto first_block = reinterpret_cast<int *>(alloc->allocate(sizeof(char) * 250));
     auto second_block = reinterpret_cast<char *>(alloc->allocate(sizeof(char) * 500));
@@ -183,7 +119,7 @@ TEST(allocatorSortedListPositiveTests, test5)
     alloc->deallocate(first_block, 1);
     first_block = reinterpret_cast<int *>(alloc->allocate(sizeof(char) * 245));
 
-    std::unique_ptr<smart_mem_resource> allocator(new allocator_sorted_list(7500, nullptr, nullptr, allocator_with_fit_mode::fit_mode::first_fit));
+    std::unique_ptr<smart_mem_resource> allocator(new allocator_sorted_list(7500, nullptr, allocator_with_fit_mode::fit_mode::first_fit));
     auto *the_same_subject = dynamic_cast<allocator_with_fit_mode *>(allocator.get());
     int iterations_count = 10000;
     
@@ -244,14 +180,7 @@ TEST(allocatorSortedListPositiveTests, test5)
 
 TEST(allocatorSortedListNegativeTests, test1)
 {
-    std::unique_ptr<logger> logger(create_logger(std::vector<std::pair<std::string, logger::severity>>
-        {
-            {
-                "allocator_sorted_list_tests_logs_negative_test_1.txt",
-                logger::severity::information
-            }
-        }));
-    std::unique_ptr<smart_mem_resource> alloc(new allocator_sorted_list(3000, nullptr, logger.get(), allocator_with_fit_mode::fit_mode::first_fit));
+    std::unique_ptr<smart_mem_resource> alloc(new allocator_sorted_list(3000, nullptr, allocator_with_fit_mode::fit_mode::first_fit));
     
     ASSERT_THROW(alloc->allocate(sizeof(char) * 3100), std::bad_alloc);
 }

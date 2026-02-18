@@ -22,10 +22,9 @@ allocator_buddies_system &allocator_buddies_system::operator=(
 allocator_buddies_system::allocator_buddies_system(
         size_t space_size,
         std::pmr::memory_resource *parent_allocator,
-        logger *logger,
         allocator_with_fit_mode::fit_mode allocate_fit_mode)
 {
-    throw not_implemented("allocator_buddies_system::allocator_buddies_system(size_t,std::pmr::memory_resource *,logger *,allocator_with_fit_mode::fit_mode)", "your code should be here...");
+    throw not_implemented("allocator_buddies_system::allocator_buddies_system(size_t,std::pmr::memory_resource *,allocator_with_fit_mode::fit_mode)", "your code should be here...");
 }
 
 [[nodiscard]] void *allocator_buddies_system::do_allocate_sm(
@@ -64,16 +63,6 @@ inline void allocator_buddies_system::set_fit_mode(
 std::vector<allocator_test_utils::block_info> allocator_buddies_system::get_blocks_info() const noexcept
 {
     throw not_implemented("std::vector<allocator_test_utils::block_info> allocator_buddies_system::get_blocks_info() const noexcept", "your code should be here...");
-}
-
-inline logger *allocator_buddies_system::get_logger() const
-{
-    throw not_implemented("inline logger *allocator_buddies_system::get_logger() const", "your code should be here...");
-}
-
-inline std::string allocator_buddies_system::get_typename() const
-{
-    throw not_implemented("inline std::string allocator_buddies_system::get_typename() const", "your code should be here...");
 }
 
 std::vector<allocator_test_utils::block_info> allocator_buddies_system::get_blocks_info_inner() const

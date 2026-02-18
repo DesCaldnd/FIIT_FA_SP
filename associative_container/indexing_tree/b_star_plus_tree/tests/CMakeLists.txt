@@ -1,0 +1,12 @@
+add_executable(
+        sys_prog_assctv_cntnr_indxng_tr_b_str_pls_tr_tests
+        b_star_plus_tree_tests.cpp)
+
+target_link_libraries(
+        sys_prog_assctv_cntnr_indxng_tr_b_str_pls_tr_tests
+        PRIVATE
+        gtest_main)
+target_link_libraries(
+        sys_prog_assctv_cntnr_indxng_tr_b_str_pls_tr_tests
+        PRIVATE
+        sys_prog_assctv_cntnr_indxng_tr_b_str_pls_tr)

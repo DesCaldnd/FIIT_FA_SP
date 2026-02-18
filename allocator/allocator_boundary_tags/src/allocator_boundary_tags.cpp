@@ -24,7 +24,6 @@ allocator_boundary_tags &allocator_boundary_tags::operator=(
 allocator_boundary_tags::allocator_boundary_tags(
         size_t space_size,
         std::pmr::memory_resource *parent_allocator,
-        logger *logger,
         allocator_with_fit_mode::fit_mode allocate_fit_mode)
 {
     throw not_implemented("allocator_boundary_tags::allocator_boundary_tags(size_t,std::pmr::memory_resource *,logger *,allocator_with_fit_mode::fit_mode)", "your code should be here...");
@@ -53,17 +52,6 @@ std::vector<allocator_test_utils::block_info> allocator_boundary_tags::get_block
 {
     throw not_implemented("std::vector<allocator_test_utils::block_info> allocator_boundary_tags::get_blocks_info() const", "your code should be here...");
 }
-
-inline logger *allocator_boundary_tags::get_logger() const
-{
-    throw not_implemented("inline logger *allocator_boundary_tags::get_logger() const", "your code should be here...");
-}
-
-inline std::string allocator_boundary_tags::get_typename() const noexcept
-{
-    throw not_implemented("inline std::string allocator_boundary_tags::get_typename() const noexcept", "your code should be here...");
-}
-
 
 allocator_boundary_tags::boundary_iterator allocator_boundary_tags::begin() const noexcept
 {

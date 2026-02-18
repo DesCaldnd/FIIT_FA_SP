@@ -1,9 +1,8 @@
 add_library(
-        mp_os_cmmn
-        src/not_implemented.cpp
-        src/operation_not_supported.cpp)
+        sys_prog_cmmn
+        src/not_implemented.cpp)
 
 target_include_directories(
-        mp_os_cmmn
+        sys_prog_cmmn
         PUBLIC
         ./include)

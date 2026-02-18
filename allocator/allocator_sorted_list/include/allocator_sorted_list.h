@@ -4,24 +4,20 @@
 #include <pp_allocator.h>
 #include <allocator_test_utils.h>
 #include <allocator_with_fit_mode.h>
-#include <logger_guardant.h>
-#include <typename_holder.h>
 #include <iterator>
 #include <mutex>
 
 class allocator_sorted_list final:
     public smart_mem_resource,
     public allocator_test_utils,
-    public allocator_with_fit_mode,
-    private logger_guardant,
-    private typename_holder
+    public allocator_with_fit_mode
 {
 
 private:
     
     void *_trusted_memory;
 
-    static constexpr const size_t allocator_metadata_size = sizeof(logger*) + sizeof(std::pmr::memory_resource *) + sizeof(fit_mode) + sizeof(size_t) + sizeof(std::mutex) + sizeof(void*);
+    static constexpr const size_t allocator_metadata_size = sizeof(std::pmr::memory_resource *) + sizeof(fit_mode) + sizeof(size_t) + sizeof(std::mutex) + sizeof(void*);
 
     static constexpr const size_t block_metadata_size = sizeof(void*) + sizeof(size_t);
 
@@ -30,7 +26,6 @@ public:
     explicit allocator_sorted_list(
             size_t space_size,
             std::pmr::memory_resource *parent_allocator = nullptr,
-            logger *logger = nullptr,
             allocator_with_fit_mode::fit_mode allocate_fit_mode = allocator_with_fit_mode::fit_mode::first_fit);
     
     allocator_sorted_list(
@@ -46,6 +41,8 @@ public:
         allocator_sorted_list &&other) noexcept;
 
     ~allocator_sorted_list() override;
+
+private:
     
     [[nodiscard]] void *do_allocate_sm(
         size_t size) override;
@@ -63,10 +60,6 @@ public:
 private:
 
     std::vector<allocator_test_utils::block_info> get_blocks_info_inner() const override;
-    
-    inline logger *get_logger() const override;
-    
-    inline std::string get_typename() const override;
 
     class sorted_free_iterator
     {

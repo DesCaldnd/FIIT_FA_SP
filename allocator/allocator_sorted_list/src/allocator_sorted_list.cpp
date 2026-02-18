@@ -21,7 +21,6 @@ allocator_sorted_list &allocator_sorted_list::operator=(
 allocator_sorted_list::allocator_sorted_list(
         size_t space_size,
         std::pmr::memory_resource *parent_allocator,
-        logger *logger,
         allocator_with_fit_mode::fit_mode allocate_fit_mode)
 {
     throw not_implemented("allocator_sorted_list::allocator_sorted_list(size_t, std::pmr::memory_resource *,logger *,allocator_with_fit_mode::fit_mode)", "your code should be here...");
@@ -63,16 +62,6 @@ inline void allocator_sorted_list::set_fit_mode(
 std::vector<allocator_test_utils::block_info> allocator_sorted_list::get_blocks_info() const noexcept
 {
     throw not_implemented("std::vector<allocator_test_utils::block_info> allocator_sorted_list::get_blocks_info() const noexcept", "your code should be here...");
-}
-
-inline logger *allocator_sorted_list::get_logger() const
-{
-    throw not_implemented("inline logger *allocator_sorted_list::get_logger() const", "your code should be here...");
-}
-
-inline std::string allocator_sorted_list::get_typename() const
-{
-    throw not_implemented("inline std::string allocator_sorted_list::get_typename() const", "your code should be here...");
 }
 
 

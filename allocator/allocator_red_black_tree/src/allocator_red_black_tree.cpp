@@ -22,10 +22,9 @@ allocator_red_black_tree &allocator_red_black_tree::operator=(
 allocator_red_black_tree::allocator_red_black_tree(
         size_t space_size,
         std::pmr::memory_resource *parent_allocator,
-        logger *logger,
         allocator_with_fit_mode::fit_mode allocate_fit_mode)
 {
-    throw not_implemented("allocator_red_black_tree::allocator_red_black_tree(size_t ,std::pmr::memory_resource *,logger *,allocator_with_fit_mode::fit_mode)", "your code should be here...");
+    throw not_implemented("allocator_red_black_tree::allocator_red_black_tree(size_t ,std::pmr::memory_resource *,allocator_with_fit_mode::fit_mode)", "your code should be here...");
 }
 
 allocator_red_black_tree::allocator_red_black_tree(const allocator_red_black_tree &other)
@@ -67,19 +66,9 @@ std::vector<allocator_test_utils::block_info> allocator_red_black_tree::get_bloc
     throw not_implemented("std::vector<allocator_test_utils::block_info> allocator_red_black_tree::get_blocks_info() const", "your code should be here...");
 }
 
-inline logger *allocator_red_black_tree::get_logger() const
-{
-    throw not_implemented("inline logger *allocator_red_black_tree::get_logger() const", "your code should be here...");
-}
-
 std::vector<allocator_test_utils::block_info> allocator_red_black_tree::get_blocks_info_inner() const
 {
     throw not_implemented("std::vector<allocator_test_utils::block_info> allocator_red_black_tree::get_blocks_info_inner() const", "your code should be here...");
-}
-
-inline std::string allocator_red_black_tree::get_typename() const noexcept
-{
-    throw not_implemented("inline std::string allocator_red_black_tree::get_typename() const noexcept", "your code should be here...");
 }
 
 

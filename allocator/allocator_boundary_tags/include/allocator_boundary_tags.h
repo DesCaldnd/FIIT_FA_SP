@@ -4,25 +4,18 @@
 #include <allocator_test_utils.h>
 #include <allocator_with_fit_mode.h>
 #include <pp_allocator.h>
-#include <logger_guardant.h>
-#include <typename_holder.h>
 #include <iterator>
 #include <mutex>
 
 class allocator_boundary_tags final :
     public smart_mem_resource,
     public allocator_test_utils,
-    public allocator_with_fit_mode,
-    private logger_guardant,
-    private typename_holder
+    public allocator_with_fit_mode
 {
 
 private:
 
-    /**
-     * TODO: You must improve it for alignment support
-     */
-    static constexpr const size_t allocator_metadata_size = sizeof(logger*) + sizeof(memory_resource*) + sizeof(allocator_with_fit_mode::fit_mode) +
+    static constexpr const size_t allocator_metadata_size = sizeof(memory_resource*) + sizeof(allocator_with_fit_mode::fit_mode) +
                                                             sizeof(size_t) + sizeof(std::mutex) + sizeof(void*);
 
     static constexpr const size_t occupied_block_metadata_size = sizeof(size_t) + sizeof(void*) + sizeof(void*) + sizeof(void*);
@@ -50,10 +43,9 @@ public:
     explicit allocator_boundary_tags(
             size_t space_size,
             std::pmr::memory_resource *parent_allocator = nullptr,
-            logger *logger = nullptr,
             allocator_with_fit_mode::fit_mode allocate_fit_mode = allocator_with_fit_mode::fit_mode::first_fit);
 
-public:
+private:
     
     [[nodiscard]] void *do_allocate_sm(
         size_t bytes) override;
@@ -77,10 +69,6 @@ private:
     std::vector<allocator_test_utils::block_info> get_blocks_info_inner() const override;
 
 /** TODO: Highly recommended for helper functions to return references */
-
-    inline logger *get_logger() const override;
-
-    inline std::string get_typename() const noexcept override;
 
     class boundary_iterator
     {
