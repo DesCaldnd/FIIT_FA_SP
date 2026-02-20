@@ -53,7 +53,6 @@ TEST(allocatorSortedListPositiveTests, test3)
                 try
                 {
                     allocated_blocks.push_front(allocator->allocate(sizeof(void *) * (rand() % 251 + 50)));
-                    std::cout << "allocation succeeded" << std::endl;
                 }
                 catch (std::bad_alloc const &ex)
                 {
@@ -63,8 +62,6 @@ TEST(allocatorSortedListPositiveTests, test3)
             case 1:
                 if (allocated_blocks.empty())
                 {
-                    std::cout << "No blocks to deallocate" << std::endl;
-                    
                     break;
                 }
                 
@@ -72,7 +69,6 @@ TEST(allocatorSortedListPositiveTests, test3)
                 std::advance(it, rand() % allocated_blocks.size());
                 allocator->deallocate(*it, 1);
                 allocated_blocks.erase(it);
-                std::cout << "deallocation succeeded" << std::endl;
                 break;
         }
     }
@@ -83,7 +79,6 @@ TEST(allocatorSortedListPositiveTests, test3)
         std::advance(it, rand() % allocated_blocks.size());
         allocator->deallocate(*it, 1);
         allocated_blocks.erase(it);
-        std::cout << "deallocation succeeded" << std::endl;
     }
 }
 

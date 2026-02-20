@@ -104,7 +104,6 @@ TEST(own, test1)
                     }
 
                     allocated_blocks.push_front(allocator->allocate(sizeof(void *) * (rand() % 251 + 50)));
-                    std::cout << "allocation succeeded" << std::endl;
                 }
                 catch (std::bad_alloc const &ex)
                 {
@@ -114,8 +113,6 @@ TEST(own, test1)
             case 1:
                 if (allocated_blocks.empty())
                 {
-                    std::cout << "No blocks to deallocate" << std::endl;
-
                     break;
                 }
 
@@ -123,7 +120,6 @@ TEST(own, test1)
                 std::advance(it, rand() % allocated_blocks.size());
                 allocator->deallocate(*it, 1);
                 allocated_blocks.erase(it);
-                std::cout << "deallocation succeeded" << std::endl;
                 break;
         }
     }
@@ -134,7 +130,6 @@ TEST(own, test1)
         std::advance(it, rand() % allocated_blocks.size());
         allocator->deallocate(*it, 1);
         allocated_blocks.erase(it);
-        std::cout << "deallocation succeeded" << std::endl;
     }
 }
 
